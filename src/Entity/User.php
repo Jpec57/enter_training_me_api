@@ -43,9 +43,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $trainings;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SavedTraining::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $savedTrainings;
+
     public function __construct()
     {
         $this->trainings = new ArrayCollection();
+        $this->savedTrainings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,6 +167,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($training->getAuthor() === $this) {
                 $training->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SavedTraining[]
+     */
+    public function getSavedTrainings(): Collection
+    {
+        return $this->savedTrainings;
+    }
+
+    public function addSavedTraining(SavedTraining $savedTraining): self
+    {
+        if (!$this->savedTrainings->contains($savedTraining)) {
+            $this->savedTrainings[] = $savedTraining;
+            $savedTraining->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSavedTraining(SavedTraining $savedTraining): self
+    {
+        if ($this->savedTrainings->removeElement($savedTraining)) {
+            // set the owning side to null (unless already changed)
+            if ($savedTraining->getUser() === $this) {
+                $savedTraining->setUser(null);
             }
         }
 

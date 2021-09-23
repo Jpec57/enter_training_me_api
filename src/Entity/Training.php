@@ -41,9 +41,15 @@ class Training
      */
     private $restBetweenCycles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SavedTraining::class, mappedBy="trainingReference")
+     */
+    private $savedTrainings;
+
     public function __construct()
     {
         $this->cycles = new ArrayCollection();
+        $this->savedTrainings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,6 +119,36 @@ class Training
     public function setRestBetweenCycles(int $restBetweenCycles): self
     {
         $this->restBetweenCycles = $restBetweenCycles;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SavedTraining[]
+     */
+    public function getSavedTrainings(): Collection
+    {
+        return $this->savedTrainings;
+    }
+
+    public function addSavedTraining(SavedTraining $savedTraining): self
+    {
+        if (!$this->savedTrainings->contains($savedTraining)) {
+            $this->savedTrainings[] = $savedTraining;
+            $savedTraining->setTrainingReference($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSavedTraining(SavedTraining $savedTraining): self
+    {
+        if ($this->savedTrainings->removeElement($savedTraining)) {
+            // set the owning side to null (unless already changed)
+            if ($savedTraining->getTrainingReference() === $this) {
+                $savedTraining->setTrainingReference(null);
+            }
+        }
 
         return $this;
     }
