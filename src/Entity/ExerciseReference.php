@@ -3,15 +3,15 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ExerciseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=ExerciseRepository::class)
+ * @ORM\Entity(repositoryClass=ExerciseReferenceRepository::class)
  */
 #[ApiResource]
-class Exercise
+class ExerciseReference
 {
     /**
      * @ORM\Id
@@ -31,6 +31,7 @@ class Exercise
      * @Groups({"default"})
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank]
     private $name;
 
     /**

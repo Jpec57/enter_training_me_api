@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Exercise;
-use App\Form\ExerciseType;
-use App\Repository\ExerciseRepository;
+use App\Entity\ExerciseReference;
+use App\Form\ExerciseReferenceType;
+use App\Repository\ExerciseReferenceRepository;
 use App\Traits\FormTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,27 +13,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/exercises')]
-class ExerciseController extends AbstractController
+class ExerciseReferenceController extends AbstractController
 {
     use FormTrait;
-    private ExerciseRepository $exerciseRepository;
+    private ExerciseReferenceRepository $exerciseReferenceRepository;
 
-    public function __construct(ExerciseRepository $exerciseRepository){
-        $this->exerciseRepository = $exerciseRepository;
+    public function __construct(ExerciseReferenceRepository $exerciseReferenceRepository){
+        $this->exerciseReferenceRepository = $exerciseReferenceRepository;
     }
 
     #[Route('/', name: "exercise_list", methods: ["GET"])]
     public function list(): Response
     {
-        $entities = $this->exerciseRepository->findAll();
+        $entities = $this->exerciseReferenceRepository->findAll();
         return $this->json($entities, 200, [], ['groups' => ['default']]);
     }
 
     #[Route('/', name: "exercise_create", methods: ["POST"])]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
-        $entity = new Exercise();
-        $form = $this->createForm(ExerciseType::class, $entity);
+        $entity = new ExerciseReference();
+        $form = $this->createForm(ExerciseReferenceType::class, $entity);
         $form->submit($request->request->all());
 
         if ($form->isSubmitted() && $form->isValid()){
@@ -46,15 +46,15 @@ class ExerciseController extends AbstractController
     }
 
     #[Route('/{id}', name: "exercise_show", methods: ["GET"])]
-    public function show(Exercise $entity): Response
+    public function show(ExerciseReference $entity): Response
     {
         return $this->json($entity, 200, [], ['groups' => ['default']]);
     }
 
     #[Route('/{id}', name: "exercise_update", methods: ["PUT", "PATCH"])]
-    public function update(Exercise $entity, EntityManagerInterface $em): Response
+    public function update(ExerciseReference $entity, EntityManagerInterface $em): Response
     {
-        $form = $this->createForm(ExerciseType::class, $entity);
+        $form = $this->createForm(ExerciseReferenceType::class, $entity);
         $form->handleRequest();
         if ($form->isSubmitted() && $form->isValid()){
             $em->flush();
@@ -66,7 +66,7 @@ class ExerciseController extends AbstractController
     }
 
     #[Route('/{id}', name: "exercise_remove", methods: ["DELETE"])]
-    public function remove(Exercise $exercise, EntityManagerInterface $em): Response
+    public function remove(ExerciseReference $exercise, EntityManagerInterface $em): Response
     {
         if ($exercise){
             $em->remove($exercise);

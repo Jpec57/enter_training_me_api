@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,6 +37,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Training::class, mappedBy="author")
+     */
+    private $trainings;
+
+    public function __construct()
+    {
+        $this->trainings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -123,5 +135,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Training[]
+     */
+    public function getTrainings(): Collection
+    {
+        return $this->trainings;
+    }
+
+    public function addTraining(Training $training): self
+    {
+        if (!$this->trainings->contains($training)) {
+            $this->trainings[] = $training;
+            $training->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraining(Training $training): self
+    {
+        if ($this->trainings->removeElement($training)) {
+            // set the owning side to null (unless already changed)
+            if ($training->getAuthor() === $this) {
+                $training->setAuthor(null);
+            }
+        }
+
+        return $this;
     }
 }
