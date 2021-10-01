@@ -2,6 +2,9 @@
 
 namespace App\Command;
 
+use App\Entity\ExerciseReference;
+use App\Entity\MuscleActivation;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,18 +15,20 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:exercise:import',
-    description: 'Add a short description for your command',
+    description: 'Import exercises from file',
 )]
 class ExerciseImportCommand extends Command
 {
     const columnNumber = 5;
     private string $projectDir;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(string $projectDir)
+    public function __construct(EntityManagerInterface $entityManagerInterface, string $projectDir)
     {
 
         parent::__construct();
         $this->projectDir = $projectDir . "/";
+        $this->entityManager = $entityManagerInterface;
     }
 
     protected function configure(): void
@@ -42,32 +47,41 @@ class ExerciseImportCommand extends Command
         }, explode($delimiter, $cellContent));
     }
 
-    private function handleMap($cellContent, $delimiter = ","): array
-    {
-        return array_map(function ($element) {
-            $value = trim($element);
-
-            return [];
-        }, explode($delimiter, $cellContent));
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         // $io->write($this->projectDir . "exercise_import.txt");
 
-
         $content = file_get_contents($this->projectDir . "exercise_import.txt");
         if ($content) {
             $cells = preg_split("/\t|\n/", $content);
-            for ($i = 0; $i < count($cells); $i = $i + ExerciseImportCommand::columnNumber) {
+            for ($i = ExerciseImportCommand::columnNumber; $i < count($cells); $i = $i + ExerciseImportCommand::columnNumber) {
                 $name = $cells[$i];
+
                 $description = $cells[$i + 1];
                 $material = $this->handleListCell($cells[$i + 2]);
                 $muscleActivations = json_decode($cells[$i + 3], true);
-                $strainessFactor = $cells[$i + 4];
-                var_dump($muscleActivations);
+                $strainessFactor = floatval($cells[$i + 4]);
+                $exo = new ExerciseReference();
+                $exo
+                    //TODO
+                    ->setReference("CH1")
+                    ->setName($name)
+                    ->setDescription($description)
+                    ->setMaterial($material)
+                    ->setStrainessFactor($strainessFactor);
+                if ($muscleActivations) {
+                    foreach ($muscleActivations as $muscleActivationMap) {
+                        $muscleActivation = new MuscleActivation();
+                        $muscleActivation
+                            ->setMuscle($muscleActivationMap["muscle"])
+                            ->setActivationRatio($muscleActivationMap["activationRatio"]);
+                        $exo->addMuscleActivation($muscleActivation);
+                    }
+                }
+                $this->entityManager->persist($exo);
             }
+            $this->entityManager->flush();
         }
 
         return Command::SUCCESS;

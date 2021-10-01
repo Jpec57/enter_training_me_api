@@ -1,0 +1,28 @@
+{
+  "name": "First Training",
+  "author": null,
+  "cycles": [
+    {
+      "exercises": [
+        {
+          "exerciseReference": 1,
+          "sets": [
+            {
+              "reps": 7,
+              "weightPercent": 0,
+              "weight": 150,
+              "exerciseFormat": "string"
+            }
+          ],
+          "restBetweenSet": 60,
+          "executionStyle": "string",
+          "exerciceCycle": "string"
+        }
+      ],
+      "restBetweenLoop": 180,
+      "numberOfLoops": 1,
+      "training": "string"
+    }
+  ],
+  "restBetweenCycles": 120
+}

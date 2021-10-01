@@ -22,7 +22,7 @@ class ExerciseFormat
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=Set::class, mappedBy="exerciseFormat")
+     * @ORM\OneToMany(targetEntity=Set::class, mappedBy="exerciseFormat", cascade={"persist"})
      */
     private $predefinedSets;
 

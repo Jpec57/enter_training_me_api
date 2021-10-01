@@ -8,10 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ExerciseReferenceRepository::class)
+ * @UniqueEntity("name")
  */
+
+#[UniqueEntity('name')]
 #[ApiResource]
 class ExerciseReference
 {
@@ -31,7 +35,7 @@ class ExerciseReference
 
     /**
      * @Groups({"default"})
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     #[Assert\NotBlank]
     private $name;
@@ -53,7 +57,7 @@ class ExerciseReference
     private $strainessFactor;
 
     /**
-     * @ORM\OneToMany(targetEntity=MuscleActivation::class, mappedBy="exerciseReference")
+     * @ORM\OneToMany(targetEntity=MuscleActivation::class, mappedBy="exerciseReference", cascade={"persist"})
      */
     private $muscleActivations;
 

@@ -28,7 +28,7 @@ class RealisedExercise
     private $exerciseReference;
 
     /**
-     * @ORM\OneToMany(targetEntity=Set::class, mappedBy="realisedExercise")
+     * @ORM\OneToMany(targetEntity=Set::class, mappedBy="realisedExercise", cascade={"persist"})
      */
     private $sets;
 

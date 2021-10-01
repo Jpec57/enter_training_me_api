@@ -32,7 +32,7 @@ class Training
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity=ExerciceCycle::class, mappedBy="training")
+     * @ORM\OneToMany(targetEntity=ExerciceCycle::class, mappedBy="training", cascade={"persist"})
      */
     private $cycles;
 

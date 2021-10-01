@@ -22,19 +22,19 @@ class ExerciceCycle
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=RealisedExercise::class, mappedBy="exerciceCycle")
+     * @ORM\OneToMany(targetEntity=RealisedExercise::class, mappedBy="exerciceCycle", cascade={"persist"})
      */
     private $exercises;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $restBetweenLoop;
+    private $restBetweenLoop = 60;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $numberOfLoops;
+    private $numberOfLoops = 1;
 
     /**
      * @ORM\ManyToOne(targetEntity=Training::class, inversedBy="cycles")
@@ -44,6 +44,8 @@ class ExerciceCycle
     public function __construct()
     {
         $this->exercises = new ArrayCollection();
+        $this->numberOfLoops = 1;
+        $this->restBetweenLoop = 60;
     }
 
     public function getId(): ?int
