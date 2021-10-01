@@ -16,6 +16,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ExerciseImportCommand extends Command
 {
+    const columnNumber = 5;
+    private string $projectDir;
+
+    public function __construct(string $projectDir)
+    {
+
+        parent::__construct();
+        $this->projectDir = $projectDir . "/";
+    }
+
     protected function configure(): void
     {
         // $this
@@ -24,21 +34,41 @@ class ExerciseImportCommand extends Command
         // ;
     }
 
+
+    private function handleListCell($cellContent, $delimiter = ","): array
+    {
+        return array_map(function ($element) {
+            return trim($element);
+        }, explode($delimiter, $cellContent));
+    }
+
+    private function handleMap($cellContent, $delimiter = ","): array
+    {
+        return array_map(function ($element) {
+            $value = trim($element);
+
+            return [];
+        }, explode($delimiter, $cellContent));
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        // $arg1 = $input->getArgument('arg1');
+        // $io->write($this->projectDir . "exercise_import.txt");
 
-        // if ($arg1) {
-        //     $io->note(sprintf('You passed an argument: %s', $arg1));
-        // }
 
-        // if ($input->getOption('option1')) {
-        //     // ...
-        // }
-
-        // $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
-        $io->write("Coucou");
+        $content = file_get_contents($this->projectDir . "exercise_import.txt");
+        if ($content) {
+            $cells = preg_split("/\t|\n/", $content);
+            for ($i = 0; $i < count($cells); $i = $i + ExerciseImportCommand::columnNumber) {
+                $name = $cells[$i];
+                $description = $cells[$i + 1];
+                $material = $this->handleListCell($cells[$i + 2]);
+                $muscleActivations = json_decode($cells[$i + 3], true);
+                $strainessFactor = $cells[$i + 4];
+                var_dump($muscleActivations);
+            }
+        }
 
         return Command::SUCCESS;
     }

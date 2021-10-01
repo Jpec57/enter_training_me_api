@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -35,10 +37,30 @@ class ExerciseReference
     private $name;
 
     /**
-      * @Groups({"default"})
+     * @Groups({"default"})
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $material = [];
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $strainessFactor;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MuscleActivation::class, mappedBy="exerciseReference")
+     */
+    private $muscleActivations;
+
+    public function __construct()
+    {
+        $this->muscleActivations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,6 +99,60 @@ class ExerciseReference
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getMaterial(): ?array
+    {
+        return $this->material;
+    }
+
+    public function setMaterial(?array $material): self
+    {
+        $this->material = $material;
+
+        return $this;
+    }
+
+    public function getStrainessFactor(): ?float
+    {
+        return $this->strainessFactor;
+    }
+
+    public function setStrainessFactor(float $strainessFactor): self
+    {
+        $this->strainessFactor = $strainessFactor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MuscleActivation[]
+     */
+    public function getMuscleActivations(): Collection
+    {
+        return $this->muscleActivations;
+    }
+
+    public function addMuscleActivation(MuscleActivation $muscleActivation): self
+    {
+        if (!$this->muscleActivations->contains($muscleActivation)) {
+            $this->muscleActivations[] = $muscleActivation;
+            $muscleActivation->setExerciseReference($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMuscleActivation(MuscleActivation $muscleActivation): self
+    {
+        if ($this->muscleActivations->removeElement($muscleActivation)) {
+            // set the owning side to null (unless already changed)
+            if ($muscleActivation->getExerciseReference() === $this) {
+                $muscleActivation->setExerciseReference(null);
+            }
+        }
 
         return $this;
     }
