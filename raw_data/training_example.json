@@ -10,18 +10,20 @@
             {
               "reps": 7,
               "weightPercent": 0,
-              "weight": 150,
-              "exerciseFormat": "string"
+              "weight": 150
+            },
+            {
+              "reps": 5,
+              "weightPercent": 0,
+              "weight": 150
             }
           ],
           "restBetweenSet": 60,
-          "executionStyle": "string",
-          "exerciceCycle": "string"
+          "executionStyle": 1
         }
       ],
       "restBetweenLoop": 180,
-      "numberOfLoops": 1,
-      "training": "string"
+      "numberOfLoops": 1
     }
   ],
   "restBetweenCycles": 120

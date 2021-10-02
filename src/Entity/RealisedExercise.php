@@ -7,45 +7,56 @@ use App\Repository\RealisedExerciseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=RealisedExerciseRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    denormalizationContext: ['groups' => ['default',
+    'realised_exercise_set', 'realised_exercise_execution_style',
+     'realised_exercise_exercise_reference']],
+)]
 class RealisedExercise
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
+     * @Groups({"default"})
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
+     * @Groups({"realised_exercise_exercise_reference"})
      * @ORM\ManyToOne(targetEntity=ExerciseReference::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $exerciseReference;
 
     /**
+     * @Groups({"realised_exercise_set"})
      * @ORM\OneToMany(targetEntity=Set::class, mappedBy="realisedExercise", cascade={"persist"})
      */
     private $sets;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="integer")
      */
     private $restBetweenSet;
 
     /**
+     * @Groups({"realised_exercise_execution_style"}) 
      * @ORM\ManyToOne(targetEntity=ExecutionStyle::class)
      */
     private $executionStyle;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ExerciceCycle::class, inversedBy="exercises")
+     * @Groups({"realised_exercise_exercise_cycle"}) 
+     * @ORM\ManyToOne(targetEntity=ExerciseCycle::class, inversedBy="exercises")
      */
-    private $exerciceCycle;
+    private $exerciseCycle;
 
     public function __construct()
     {
@@ -123,14 +134,14 @@ class RealisedExercise
         return $this;
     }
 
-    public function getExerciceCycle(): ?ExerciceCycle
+    public function getExerciseCycle(): ?ExerciseCycle
     {
-        return $this->exerciceCycle;
+        return $this->exerciseCycle;
     }
 
-    public function setExerciceCycle(?ExerciceCycle $exerciceCycle): self
+    public function setExerciseCycle(?ExerciseCycle $exerciseCycle): self
     {
-        $this->exerciceCycle = $exerciceCycle;
+        $this->exerciseCycle = $exerciseCycle;
 
         return $this;
     }

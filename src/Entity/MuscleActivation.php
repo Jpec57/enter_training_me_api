@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MuscleActivationRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=MuscleActivationRepository::class)
  */

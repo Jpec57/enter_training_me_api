@@ -5,42 +5,52 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\SetRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=SetRepository::class)
  * @ORM\Table(name="`set`")
  */
-#[ApiResource]
+#[ApiResource(
+    denormalizationContext: ['groups' => ['default']],
+)]
 class Set
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"default"})
      */
     private $id;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="integer")
      */
     private $reps;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="float", nullable=true)
      */
     private $weightPercent;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="float", nullable=true)
      */
     private $weight;
 
     /**
+     * @Groups({"set_exercise_format"})
      * @ORM\ManyToOne(targetEntity=ExerciseFormat::class, inversedBy="predefinedSets")
      */
     private $exerciseFormat;
 
     /**
+     * @Groups({"set_realised_exercise"})
+     * @Groups({"default"})
      * @ORM\ManyToOne(targetEntity=RealisedExercise::class, inversedBy="sets")
      * @ORM\JoinColumn(nullable=false)
      */

@@ -7,36 +7,44 @@ use App\Repository\TrainingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TrainingRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    denormalizationContext: ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
+)]
 class Training
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
+     * @Groups({"default"})
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @Groups({"training_user"})
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="trainings")
      */
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity=ExerciceCycle::class, mappedBy="training", cascade={"persist"})
+     * @Groups({"training_exercise_cycle"})
+     * @ORM\OneToMany(targetEntity=ExerciseCycle::class, mappedBy="training", cascade={"persist"})
      */
     private $cycles;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="integer")
      */
     private $restBetweenCycles;
@@ -82,14 +90,14 @@ class Training
     }
 
     /**
-     * @return Collection|ExerciceCycle[]
+     * @return Collection|ExerciseCycle[]
      */
     public function getCycles(): Collection
     {
         return $this->cycles;
     }
 
-    public function addCycle(ExerciceCycle $cycle): self
+    public function addCycle(ExerciseCycle $cycle): self
     {
         if (!$this->cycles->contains($cycle)) {
             $this->cycles[] = $cycle;
@@ -99,7 +107,7 @@ class Training
         return $this;
     }
 
-    public function removeCycle(ExerciceCycle $cycle): self
+    public function removeCycle(ExerciseCycle $cycle): self
     {
         if ($this->cycles->removeElement($cycle)) {
             // set the owning side to null (unless already changed)

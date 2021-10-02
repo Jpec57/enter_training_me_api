@@ -3,35 +3,42 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ExerciceCycleRepository;
+use App\Repository\ExerciseCycleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=ExerciceCycleRepository::class)
+ * @ORM\Entity(repositoryClass=ExerciseCycleRepository::class)
  */
-#[ApiResource]
-class ExerciceCycle
+#[ApiResource(
+    denormalizationContext: ['groups' => ['default', 'exercise_cycle_exercise']],
+)]
+class ExerciseCycle
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"default"})
      */
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=RealisedExercise::class, mappedBy="exerciceCycle", cascade={"persist"})
+     * @Groups({"exercise_cycle_exercise"})
+     * @ORM\OneToMany(targetEntity=RealisedExercise::class, mappedBy="exerciseCycle", cascade={"persist"})
      */
     private $exercises;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="integer")
      */
     private $restBetweenLoop = 60;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="integer")
      */
     private $numberOfLoops = 1;
@@ -65,7 +72,7 @@ class ExerciceCycle
     {
         if (!$this->exercises->contains($exercise)) {
             $this->exercises[] = $exercise;
-            $exercise->setExerciceCycle($this);
+            $exercise->setExerciseCycle($this);
         }
 
         return $this;
@@ -75,8 +82,8 @@ class ExerciceCycle
     {
         if ($this->exercises->removeElement($exercise)) {
             // set the owning side to null (unless already changed)
-            if ($exercise->getExerciceCycle() === $this) {
-                $exercise->setExerciceCycle(null);
+            if ($exercise->getExerciseCycle() === $this) {
+                $exercise->setExerciseCycle(null);
             }
         }
 
