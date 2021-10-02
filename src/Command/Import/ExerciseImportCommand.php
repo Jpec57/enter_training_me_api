@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Command;
+namespace App\Command\Import;
 
 use App\Entity\ExerciseReference;
 use App\Entity\MuscleActivation;
+use App\Traits\ImportCommandTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,6 +20,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ExerciseImportCommand extends Command
 {
+    use ImportCommandTrait;
+
     const columnNumber = 5;
     private string $projectDir;
     private EntityManagerInterface $entityManager;
@@ -33,25 +36,22 @@ class ExerciseImportCommand extends Command
 
     protected function configure(): void
     {
-        // $this
-        //     ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-        //     ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        // ;
-    }
-
-
-    private function handleListCell($cellContent, $delimiter = ","): array
-    {
-        return array_map(function ($element) {
-            return trim($element);
-        }, explode($delimiter, $cellContent));
+        $this
+            ->addOption('reset', null, InputOption::VALUE_NONE, 'Reset entities');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        // $io->write($this->projectDir . "exercise_import.txt");
 
+        if ($input->getOption('reset')) {
+            $repo = $this->entityManager->getRepository(ExerciseReference::class);
+            $entities = $repo->findAll();
+            foreach ($entities as $entity) {
+                $this->entityManager->remove($entity);
+            }
+            $this->entityManager->flush();
+        }
         $content = file_get_contents($this->projectDir . "exercise_import.txt");
         if ($content) {
             $cells = preg_split("/\t|\n/", $content);
@@ -80,9 +80,11 @@ class ExerciseImportCommand extends Command
                     }
                 }
                 $this->entityManager->persist($exo);
+                $io->writeln("\tImporting $name...");
             }
             $this->entityManager->flush();
         }
+        $io->success("Exercises imported.");
 
         return Command::SUCCESS;
     }

@@ -1,4 +1,0 @@
-Name	description	material	muscleActivations	strainessFactor
-Dips	Dips description	parallel bars, bar	chest:0.3, triceps:0.4, shoulders:0.3	0.3
-Pull Up	Pull up long description 	bar	biceps, back, shoulders	0.4
-Push Up	Lay your fingers on the ground, shoulder width apart and simply push.		chest:0.4, triceps:0.4, shoulders:0.2	0.1
