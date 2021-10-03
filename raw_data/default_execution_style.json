@@ -1,5 +1,7 @@
-{
-    "name": "regular",
-    "strainFactor": 0.5,
-    "description": "Normal execution. Don't forget to breath!"
-}
+[
+    {
+        "name": "regular",
+        "strainFactor": 0.5,
+        "description": "Normal execution. Don't forget to breath!"
+    }
+]

@@ -13,10 +13,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=RealisedExerciseRepository::class)
  */
 #[ApiResource(
-    denormalizationContext: ['groups' => ['default',
-    'realised_exercise_set', 'realised_exercise_execution_style',
-     'realised_exercise_exercise_reference']],
+    denormalizationContext: ['groups' => [
+        'default',
+        'realised_exercise_set', 'realised_exercise_execution_style',
+        'realised_exercise_exercise_reference'
+    ]]
 )]
+
 class RealisedExercise
 {
     /**

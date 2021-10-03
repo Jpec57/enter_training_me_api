@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ExecutionStyleImportCommand extends Command
 {
     use ImportCommandTrait;
-    
+
     const columnNumber = 5;
     private string $projectDir;
     private EntityManagerInterface $entityManager;
@@ -57,24 +57,22 @@ class ExecutionStyleImportCommand extends Command
             }
             $this->entityManager->flush();
         }
-        $content = file_get_contents($this->projectDir . "training_import.txt");
+        $content = file_get_contents($this->projectDir . "raw_data/default_execution_style.json");
         if ($content) {
-            $cells = preg_split("/\t|\n/", $content);
-            for ($i = ExecutionStyleImportCommand::columnNumber; $i < count($cells); $i = $i + ExecutionStyleImportCommand::columnNumber) {
-                $name = $cells[$i];
-                // $description = $cells[$i + 1];
-                // $material = $this->handleListCell($cells[$i + 2]);
-                // $muscleActivations = json_decode($cells[$i + 3], true);
-                // $strainessFactor = floatval($cells[$i + 4]);
+            $styles = json_decode($content, true);
+            foreach ($styles as $style) {
+                $execStyle = new ExecutionStyle();
+                $name = $style['name'];
+                $execStyle->setName($style['name']);
+                $execStyle->setStrainFactor($style['strainFactor']);
+                $execStyle->setDescription($style['description']);
 
-                $training = new ExecutionStyle();
-
-                $this->entityManager->persist($training);
+                $this->entityManager->persist($execStyle);
                 $io->writeln("\tImporting $name...");
             }
             $this->entityManager->flush();
         }
-        $io->success("Exercises imported.");
+        $io->success("ExecutionStyles imported.");
 
         return Command::SUCCESS;
     }
