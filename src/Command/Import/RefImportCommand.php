@@ -51,7 +51,9 @@ class RefImportCommand extends Command
                 '--force'  => true,
             ]);
             $res += $this->runCommand($output, 'doctrine:database:create');
-            $res += $this->runCommand($output, 'doctrine:migrations:migrate', []);
+            $res += $this->runCommand($output, 'doctrine:migrations:migrate', [
+                '--no-interaction' => true
+            ]);
             if ($res === 0) {
                 $io->success('Database successfully reset.');
             }

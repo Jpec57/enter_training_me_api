@@ -38,7 +38,7 @@ services:
     depends_on:
       - php
     ports:
-      - 3001:80
+      - 8007:80
 
 volumes:
   etm_db:
