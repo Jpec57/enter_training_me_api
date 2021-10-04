@@ -17,7 +17,9 @@ use App\Repository\ExerciseReferenceRepository;
  */
 
 #[UniqueEntity('name')]
-#[ApiResource]
+#[ApiResource(
+    denormalizationContext: ['groups' => ['default', 'exercise_reference_muscle_activation']],
+)]
 class ExerciseReference
 {
     /**
@@ -48,21 +50,25 @@ class ExerciseReference
     private $description;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="array", nullable=true)
      */
     private $material = [];
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="float")
      */
     private $strainessFactor;
 
     /**
+     * @Groups({"exercise_reference_muscle_activation"})
      * @ORM\OneToMany(targetEntity=MuscleActivation::class, mappedBy="exerciseReference", cascade={"persist"})
      */
     private $muscleActivations;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="boolean", options={"default" : 0})
      */
     private $isBodyweightExercise = false;
