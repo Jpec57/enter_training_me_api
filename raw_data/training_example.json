@@ -1,30 +1,54 @@
-{
-  "name": "First Training",
-  "author": null,
-  "cycles": [
-    {
-      "exercises": [
-        {
-          "exerciseReference": 1,
-          "sets": [
-            {
-              "reps": 7,
-              "weightPercent": 0,
-              "weight": 150
-            },
-            {
-              "reps": 5,
-              "weightPercent": 0,
-              "weight": 150
-            }
-          ],
-          "restBetweenSet": 60,
-          "executionStyle": 1
-        }
-      ],
-      "restBetweenLoop": 180,
-      "numberOfLoops": 1
-    }
-  ],
-  "restBetweenCycles": 120
-}
+[
+  {
+    "name": "First Training",
+    "author": null,
+    "cycles": [
+      {
+        "exercises": [
+          {
+            "exerciseReference": "api/exercise_references/1",
+            "sets": [
+              {
+                "reps": 7,
+                "weightPercent": 0,
+                "weight": 150
+              },
+              {
+                "reps": 5,
+                "weightPercent": 0,
+                "weight": 150
+              }
+            ],
+            "restBetweenSet": 60,
+            "executionStyle": 1
+          },
+          {
+            "exerciseReference": "api/exercise_references/2",
+            "sets": [
+              {
+                "reps": 12,
+                "weightPercent": 0.3,
+                "weight": 150
+              },
+              {
+                "reps": 12,
+                "weightPercent": 0.3,
+                "weight": 150
+              },
+              {
+                "reps": 12,
+                "weightPercent": 0.3,
+                "weight": 150
+              }
+            ],
+            "restBetweenSet": 60,
+            "executionStyle": 2
+          }
+        ],
+        "restBetweenLoop": 180,
+        "numberOfLoops": 1
+      }
+    ],
+    "restBetweenCycles": 120
+  }
+]

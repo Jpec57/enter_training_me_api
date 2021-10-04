@@ -61,6 +61,7 @@ class RefImportCommand extends Command
 
         $this->runCommand($output, 'app:executionStyle:import');
         $this->runCommand($output, 'app:exercise:import');
+        // $this->runCommand($output, 'app:training:import');
 
         return Command::SUCCESS;
     }

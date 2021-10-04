@@ -22,7 +22,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class TrainingImportCommand extends Command
 {
     use ImportCommandTrait;
-    
+
     const columnNumber = 5;
     private string $projectDir;
     private EntityManagerInterface $entityManager;
@@ -42,6 +42,10 @@ class TrainingImportCommand extends Command
     }
 
 
+    // protected function makeCreateRequest(){
+    //     curl_exec("")
+    // }
+
 
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -56,19 +60,17 @@ class TrainingImportCommand extends Command
             }
             $this->entityManager->flush();
         }
-        $content = file_get_contents($this->projectDir . "training_import.txt");
+        $content = file_get_contents($this->projectDir . "raw_data/training_example.json");
         if ($content) {
-            $cells = preg_split("/\t|\n/", $content);
-            for ($i = TrainingImportCommand::columnNumber; $i < count($cells); $i = $i + TrainingImportCommand::columnNumber) {
-                $name = $cells[$i];
-                // $description = $cells[$i + 1];
-                // $material = $this->handleListCell($cells[$i + 2]);
-                // $muscleActivations = json_decode($cells[$i + 3], true);
-                // $strainessFactor = floatval($cells[$i + 4]);
+            $entities = json_decode($content, true);
+            foreach ($entities as $jsonEntity) {
+                $execStyle = new Training();
+                $name = $jsonEntity['name'];
+                $execStyle->setName($jsonEntity['name']);
+                $execStyle->setRestBetweenCycles($jsonEntity['strainFactor']);
+                // $execStyle->setCycles($style['description']);
 
-                $training = new Training();
-
-                $this->entityManager->persist($training);
+                $this->entityManager->persist($execStyle);
                 $io->writeln("\tImporting $name...");
             }
             $this->entityManager->flush();

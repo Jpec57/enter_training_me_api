@@ -1,15 +1,23 @@
 api_platform:
-    formats:
-        # jsonld:
-        #     mime_types: ['application/ld+json']
-        json:
-            mime_types: ['application/json']
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
-        # json: ['application/merge-patch+json']
-        json:     ['application/json']
+        json: ['application/merge-patch+json']
     swagger:
         versions: [3]
-    enable_docs: true
-    allow_plain_identifiers: true
+
+# api_platform:
+#     formats:
+#         jsonld:
+#             mime_types: ['application/ld+json']
+#         # json:
+#         #     mime_types: ['application/json']
+#     mapping:
+#         paths: ['%kernel.project_dir%/src/Entity']
+#     patch_formats:
+#         json: ['application/merge-patch+json']
+#         # json:     ['application/json']
+#     swagger:
+#         versions: [3]
+#     # enable_docs: true
+#     # allow_plain_identifiers: true

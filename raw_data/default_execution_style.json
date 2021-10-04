@@ -3,5 +3,15 @@
         "name": "regular",
         "strainFactor": 0.5,
         "description": "Normal execution. Don't forget to breath!"
+    },
+    {
+        "name": "explosive",
+        "strainFactor": 0.7,
+        "description": "Wait at 90° for 2,3 seconds then go all out"
+    },
+    {
+        "name": "slow",
+        "strainFactor": 0.9,
+        "description": "Control the complete movement (each rep should be about 8 seconds!)"
     }
 ]

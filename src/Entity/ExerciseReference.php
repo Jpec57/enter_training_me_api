@@ -62,9 +62,15 @@ class ExerciseReference
      */
     private $muscleActivations;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : 0})
+     */
+    private $isBodyweightExercise = false;
+
     public function __construct()
     {
         $this->muscleActivations = new ArrayCollection();
+        $this->isBodyweightExercise = false;
     }
 
     public function getId(): ?int
@@ -158,6 +164,18 @@ class ExerciseReference
                 $muscleActivation->setExerciseReference(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsBodyweightExercise(): ?bool
+    {
+        return $this->isBodyweightExercise;
+    }
+
+    public function setIsBodyweightExercise(bool $isBodyweightExercise): self
+    {
+        $this->isBodyweightExercise = $isBodyweightExercise;
 
         return $this;
     }

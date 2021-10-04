@@ -1,4 +1,0 @@
-Name	description	material	muscleActivations	strainessFactor
-Dips	Dips description	parallel bars, bar	[{"muscle":"chest","activationRatio":0.3}, {"muscle":"triceps","activationRatio":0.4}, {"muscle":"shoulders","activationRatio":0.3}]	0.3
-Pull Up	Pull up long description 	bar	[{"muscle":"biceps","activationRatio":0.4}, {"muscle":"back","activationRatio":0.4}, {"muscle":"shoulders","activationRatio":0.2}]	0.4
-Push Up	Lay your fingers on the ground, shoulder width apart and simply push.		[{"muscle":"chest","activationRatio":0.4}, {"muscle":"triceps","activationRatio":0.4}, {"muscle":"shoulders","activationRatio":0.2}]	0.1

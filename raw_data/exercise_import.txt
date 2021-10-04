@@ -1,0 +1,11 @@
+Name	description	material	muscleActivations	strainessFactor	isBodyWeight
+Dips	Dips description	parallel bars, bar	"[{""muscle"":""chest"",""activationRatio"":0.3}, {""muscle"":""triceps"",""activationRatio"":0.4}, {""muscle"":""shoulders"",""activationRatio"":0.3}]"	0.3	1
+Pull Up	Pull up long description 	bar	"[{""muscle"":""biceps"",""activationRatio"":0.4}, {""muscle"":""back"",""activationRatio"":0.4}, {""muscle"":""shoulders"",""activationRatio"":0.2}]"	0.4	1
+Push Up	Lay your fingers on the ground, shoulder width apart and simply push.		"[{""muscle"":""chest"",""activationRatio"":0.4}, {""muscle"":""triceps"",""activationRatio"":0.4}, {""muscle"":""shoulders"",""activationRatio"":0.2}]"	0.1	1
+					
+Bench Press		bench	"[{""muscle"":""chest"",""activationRatio"":0.7}, {""muscle"":""triceps"",""activationRatio"":0.4}, {""muscle"":""shoulders"",""activationRatio"":0.3}]"	0.5	0
+Inclined Bench Press		bench	"[{""muscle"":""chest"",""activationRatio"":0.7}, {""muscle"":""triceps"",""activationRatio"":0.4}, {""muscle"":""shoulders"",""activationRatio"":0.3}]"	0.5	0
+Butterfly		station, dumbbells	"[{""muscle"":""chest"",""activationRatio"":0.9}, {""muscle"":""shoulders"",""activationRatio"":0.1}]"	0.5	0
+Triceps Extension 		station, dumbbells	"[{""muscle"":""triceps"",""activationRatio"":1}]"	0.5	0
+Triceps Extension Overhead		station, dumbbells	"[{""muscle"":""triceps"",""activationRatio"":1}]"	0.5	0
+Cable Triceps Extension 		station	"[{""muscle"":""triceps"",""activationRatio"":1}]"	0.5	0

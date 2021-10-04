@@ -22,7 +22,7 @@ class ExerciseImportCommand extends Command
 {
     use ImportCommandTrait;
 
-    const columnNumber = 5;
+    const columnNumber = 6;
     private string $projectDir;
     private EntityManagerInterface $entityManager;
 
@@ -52,35 +52,38 @@ class ExerciseImportCommand extends Command
             }
             $this->entityManager->flush();
         }
-        $content = file_get_contents($this->projectDir . "exercise_import.txt");
+        $content = file_get_contents($this->projectDir . "raw_data/exercise_import.txt");
         if ($content) {
             $cells = preg_split("/\t|\n/", $content);
             for ($i = ExerciseImportCommand::columnNumber; $i < count($cells); $i = $i + ExerciseImportCommand::columnNumber) {
                 $name = $cells[$i];
-
-                $description = $cells[$i + 1];
-                $material = $this->handleListCell($cells[$i + 2]);
-                $muscleActivations = json_decode($cells[$i + 3], true);
-                $strainessFactor = floatval($cells[$i + 4]);
-                $exo = new ExerciseReference();
-                $exo
-                    //TODO
-                    ->setReference("CH1")
-                    ->setName($name)
-                    ->setDescription($description)
-                    ->setMaterial($material)
-                    ->setStrainessFactor($strainessFactor);
-                if ($muscleActivations) {
-                    foreach ($muscleActivations as $muscleActivationMap) {
-                        $muscleActivation = new MuscleActivation();
-                        $muscleActivation
-                            ->setMuscle($muscleActivationMap["muscle"])
-                            ->setActivationRatio($muscleActivationMap["activationRatio"]);
-                        $exo->addMuscleActivation($muscleActivation);
+                if (!empty($name)) {
+                    $description = $cells[$i + 1];
+                    $material = $this->handleListCell($cells[$i + 2]);
+                    $muscleActivations = json_decode($cells[$i + 3], true);
+                    $strainessFactor = floatval($cells[$i + 4]);
+                    $isBodyWeight = $cells[$i + 5] == 1;
+                    $exo = new ExerciseReference();
+                    $exo
+                        //TODO
+                        ->setReference("CH1")
+                        ->setName($name)
+                        ->setDescription($description)
+                        ->setMaterial($material)
+                        ->setIsBodyweightExercise($isBodyWeight)
+                        ->setStrainessFactor($strainessFactor);
+                    if ($muscleActivations) {
+                        foreach ($muscleActivations as $muscleActivationMap) {
+                            $muscleActivation = new MuscleActivation();
+                            $muscleActivation
+                                ->setMuscle($muscleActivationMap["muscle"])
+                                ->setActivationRatio($muscleActivationMap["activationRatio"]);
+                            $exo->addMuscleActivation($muscleActivation);
+                        }
                     }
+                    $this->entityManager->persist($exo);
+                    $io->writeln("\tImporting $name...");
                 }
-                $this->entityManager->persist($exo);
-                $io->writeln("\tImporting $name...");
             }
             $this->entityManager->flush();
         }
