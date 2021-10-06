@@ -12,7 +12,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ExerciseFormatRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    itemOperations: ["get"],
+)]
 class ExerciseFormat
 {
     /**
