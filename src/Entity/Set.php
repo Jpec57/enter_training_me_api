@@ -26,7 +26,7 @@ class Set
     private $id;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "summary"})
      * @ORM\Column(type="integer")
      */
     private $reps;
@@ -38,7 +38,7 @@ class Set
     private $weightPercent;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "summary"})
      * @ORM\Column(type="float", nullable=true)
      */
     private $weight;

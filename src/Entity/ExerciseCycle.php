@@ -27,19 +27,19 @@ class ExerciseCycle
     private $id;
 
     /**
-     * @Groups({"exercise_cycle_exercise"})
+     * @Groups({"exercise_cycle_exercise", "summary"})
      * @ORM\OneToMany(targetEntity=RealisedExercise::class, mappedBy="exerciseCycle", cascade={"persist"})
      */
     private $exercises;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "summary"})
      * @ORM\Column(type="integer")
      */
     private $restBetweenLoop = 60;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "summary"})
      * @ORM\Column(type="integer")
      */
     private $numberOfLoops = 1;

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Interfaces\SummarizableEntityInterface;
 use App\Repository\TrainingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,11 +16,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     itemOperations: [
         "get" => [
-            'denormalization_context' => ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
+            // 'denormalization_context' => ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
         ]
     ],
-    normalizationContext: ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
-    denormalizationContext: ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
+    normalizationContext: ['groups' => ['default', 'summary', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
+    denormalizationContext: ['groups' => ['default',  'summary', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
 )]
 class Training
 {
@@ -32,7 +33,7 @@ class Training
     private $id;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "summary"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -44,13 +45,13 @@ class Training
     private $author;
 
     /**
-     * @Groups({"training_exercise_cycle"})
+     * @Groups({"training_exercise_cycle", "summary"})
      * @ORM\OneToMany(targetEntity=ExerciseCycle::class, mappedBy="training", cascade={"persist"})
      */
     private $cycles;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "summary"})
      * @ORM\Column(type="integer")
      */
     private $restBetweenCycles;
@@ -61,6 +62,7 @@ class Training
     private $savedTrainings;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="boolean", options={"default" : 0})
      */
     private $isOfficial;

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Interfaces\SummarizableEntityInterface;
 use App\Repository\RealisedExerciseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -36,26 +37,26 @@ class RealisedExercise
     private $id;
 
     /**
-     * @Groups({"realised_exercise_exercise_reference"})
+     * @Groups({"realised_exercise_exercise_reference", "summary"})
      * @ORM\ManyToOne(targetEntity=ExerciseReference::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $exerciseReference;
 
     /**
-     * @Groups({"realised_exercise_set"})
+     * @Groups({"realised_exercise_set", "summary"})
      * @ORM\OneToMany(targetEntity=Set::class, mappedBy="realisedExercise", cascade={"persist"})
      */
     private $sets;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "summary"})
      * @ORM\Column(type="integer")
      */
     private $restBetweenSet;
 
     /**
-     * @Groups({"realised_exercise_execution_style"}) 
+     * @Groups({"realised_exercise_execution_style", "summary"}) 
      * @ORM\ManyToOne(targetEntity=ExecutionStyle::class)
      */
     private $executionStyle;

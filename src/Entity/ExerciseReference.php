@@ -39,7 +39,7 @@ class ExerciseReference
     private $reference;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "summary"})
      * @ORM\Column(type="string", length=255, unique=true)
      */
     #[Assert\NotBlank]
