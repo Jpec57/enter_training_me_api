@@ -56,6 +56,17 @@ class ExecutionStyle
      */
     private $exerciseFormats;
 
+
+    /**
+     * @Valid()
+     * @ORM\Column(type="string", length=12, nullable=true)
+     */
+    private $timeUnderTension;
+
+    //https://fr.myprotein.com/thezone/entrainement/tempos-musculation/
+
+
+
     public function __construct()
     {
         $this->exerciseFormats = new ArrayCollection();
@@ -128,6 +139,21 @@ class ExecutionStyle
                 $exerciseFormat->setExecutionStyle(null);
             }
         }
+
+        return $this;
+    }
+
+    //strength 5/0/1/0
+    //hypertrophy 3/0/1/0
+    //endurance 4/2/1/1
+    public function getTimeUnderTension(): ?string
+    {
+        return $this->timeUnderTension ?? "3/0/1/0";
+    }
+
+    public function setTimeUnderTension(?string $timeUnderTension): self
+    {
+        $this->timeUnderTension = $timeUnderTension;
 
         return $this;
     }
