@@ -15,11 +15,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     itemOperations: ["get"],
+    denormalizationContext: ['groups' => [
+        'default',
+    ]],
+    normalizationContext: ['groups' => [
+        'default',
+    ]]
 )]
 #[UniqueEntity("name")]
 class ExecutionStyle
 {
     /**
+     * @Groups({"default"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -27,16 +34,19 @@ class ExecutionStyle
     private $id;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="float")
      */
     private $strainFactor;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="text")
      */
     private $description;

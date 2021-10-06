@@ -14,10 +14,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     itemOperations: ["get"],
+    denormalizationContext: ['groups' => [
+        'default', 'exercise_format_set'
+    ]],
+    normalizationContext: ['groups' => [
+        'default', 'exercise_format_set'
+    ]]
 )]
 class ExerciseFormat
 {
     /**
+     * @Groups({"default"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -25,11 +32,13 @@ class ExerciseFormat
     private $id;
 
     /**
+     * @Groups({"exercise_format_set"})
      * @ORM\OneToMany(targetEntity=Set::class, mappedBy="exerciseFormat", cascade={"persist"})
      */
     private $predefinedSets;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="integer")
      */
     private $predefinedRest;

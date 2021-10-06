@@ -60,10 +60,16 @@ class Training
      */
     private $savedTrainings;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : 0})
+     */
+    private $isOfficial;
+
     public function __construct()
     {
         $this->cycles = new ArrayCollection();
         $this->savedTrainings = new ArrayCollection();
+        $this->isOfficial = false;
     }
 
     public function getId(): ?int
@@ -163,6 +169,18 @@ class Training
                 $savedTraining->setTrainingReference(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsOfficial(): ?bool
+    {
+        return $this->isOfficial;
+    }
+
+    public function setIsOfficial(bool $isOfficial): self
+    {
+        $this->isOfficial = $isOfficial;
 
         return $this;
     }
