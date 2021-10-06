@@ -8,3 +8,8 @@ Restrict access to moderators for following entities:
 - ExerciseFormat
 - ExerciseReference
 - Training
+
+
+# Entity
+
+- Validator on ExecutionStyle:timeUnderTension
