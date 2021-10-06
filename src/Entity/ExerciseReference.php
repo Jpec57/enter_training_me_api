@@ -20,6 +20,7 @@ use App\Repository\ExerciseReferenceRepository;
 #[ApiResource(
     itemOperations: ["get"],
     denormalizationContext: ['groups' => ['default', 'exercise_reference_muscle_activation']],
+    normalizationContext: ['groups' => ['default', 'exercise_reference_muscle_activation']],
 )]
 class ExerciseReference
 {

@@ -1,10 +1,10 @@
 Rest = Exercise with 0 difficulty ?
 
-## Add a TrainingFormat entity
+# API Platform
 
-Maybe useful to create a method one can follow to get stronger.
-All but exercises will be given
+Restrict access to moderators for following entities:
 
-## SavedTraining 
-
-Do we need to create an entity for that ? Could be useful to fetch easily and add info (isPublic to share with others)
+- ExecutionStyle
+- ExerciseFormat
+- ExerciseReference
+- Training

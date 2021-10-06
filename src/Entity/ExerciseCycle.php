@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     denormalizationContext: ['groups' => ['default', 'exercise_cycle_exercise']],
+    normalizationContext: ['groups' => ['default', 'exercise_cycle_exercise']],
 )]
 class ExerciseCycle
 {

@@ -17,6 +17,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'default',
         'realised_exercise_set', 'realised_exercise_execution_style',
         'realised_exercise_exercise_reference'
+    ]],
+    normalizationContext: ['groups' => [
+        'default',
+        'realised_exercise_set', 'realised_exercise_execution_style',
+        'realised_exercise_exercise_reference'
     ]]
 )]
 

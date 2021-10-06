@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     denormalizationContext: ['groups' => ['default']],
+    normalizationContext: ['groups' => ['default']],
 )]
 class Set
 {
@@ -50,7 +51,6 @@ class Set
 
     /**
      * @Groups({"set_realised_exercise"})
-     * @Groups({"default"})
      * @ORM\ManyToOne(targetEntity=RealisedExercise::class, inversedBy="sets")
      * @ORM\JoinColumn(nullable=false)
      */
