@@ -154,4 +154,24 @@ class RealisedExercise
 
         return $this;
     }
+
+    public function getTimeUnderTension(): string
+    {
+        return $this->executionStyle?->getTotalTimeUnderTension() ?? ExecutionStyle::DEFAULT_EXECUTION_TEMPO;
+    }
+
+    public function getTimeUnderTensionAsArray(): array
+    {
+        return explode("/", $this->getTimeUnderTension());
+    }
+
+    public function getTotalTimeUnderTension(): int
+    {
+        $total = 0;
+        foreach ($this->getTimeUnderTensionAsArray() as $val) {
+            $total += $val;
+        }
+
+        return $total;
+    }
 }

@@ -74,6 +74,34 @@ class Training
         $this->isOfficial = false;
     }
 
+    /**
+     * @Groups({"default"})
+     */
+    public function getEstimatedTimeInSeconds(): int
+    {
+        $totalCycleTime = 0;
+        $nbCycles = count($this->cycles);
+
+        if ($nbCycles == 0) {
+            return 0;
+        }
+        /** @var ExerciseCycle $firstCycle */
+        $firstCycle = $this->cycles[0];
+        foreach ($firstCycle->getExercises() as $exercise) {
+            // $exerciseReference = $exercise->getExerciseReference();
+            $sets = $exercise->getSets();
+            $totalExerciseTime = 0;
+            foreach ($sets as $set) {
+
+                $totalSetTime = $set->getReps() * $exercise->getTotalTimeUnderTension();
+                $totalExerciseTime += ($totalSetTime + $exercise->getRestBetweenSet());
+            }
+            $totalCycleTime += $totalExerciseTime;
+        }
+
+        return $totalCycleTime * $nbCycles + $this->restBetweenCycles * ($nbCycles - 1);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

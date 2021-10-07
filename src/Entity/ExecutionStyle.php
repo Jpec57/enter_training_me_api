@@ -25,6 +25,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[UniqueEntity("name")]
 class ExecutionStyle
 {
+    const DEFAULT_EXECUTION_TEMPO = "3/0/1/0";
+
     /**
      * @Groups({"default"})
      * @ORM\Id
@@ -145,9 +147,9 @@ class ExecutionStyle
     //strength 5/0/1/0
     //hypertrophy 3/0/1/0
     //endurance 4/2/1/1
-    public function getTimeUnderTension(): ?string
+    public function getTimeUnderTension(): string
     {
-        return $this->timeUnderTension ?? "3/0/1/0";
+        return $this->timeUnderTension ?? self::DEFAULT_EXECUTION_TEMPO;
     }
 
     public function setTimeUnderTension(?string $timeUnderTension): self
@@ -155,5 +157,20 @@ class ExecutionStyle
         $this->timeUnderTension = $timeUnderTension;
 
         return $this;
+    }
+
+    public function getTimeUnderTensionAsArray(): array
+    {
+        return explode("/", $this->getTimeUnderTension());
+    }
+
+    public function getTotalTimeUnderTension(): int
+    {
+        $total = 0;
+        foreach ($this->getTimeUnderTensionAsArray() as $val) {
+            $total += $val;
+        }
+
+        return $total;
     }
 }
