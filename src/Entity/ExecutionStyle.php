@@ -58,7 +58,6 @@ class ExecutionStyle
 
 
     /**
-     * @Valid()
      * @ORM\Column(type="string", length=12, nullable=true)
      */
     private $timeUnderTension;

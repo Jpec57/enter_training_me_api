@@ -1,0 +1,145 @@
+
+  {
+    "name": "Chest Training",
+    "author": null,
+    "isOfficial": true,
+    "cycles": [
+      {
+        "exercises": [
+          {
+            "exerciseReference": "api/exercise_references/4",
+            "sets": [
+              {
+                "reps": 5,
+                "weightPercent": 89,
+                "weight": 120
+              },
+              {
+                "reps": 5,
+                "weightPercent": 89,
+                "weight": 120
+              },
+              {
+                "reps": 5,
+                "weightPercent": 89,
+                "weight": 120
+              },
+              {
+                "reps": 5,
+                "weightPercent": 89,
+                "weight": 120
+              },
+              {
+                "reps": 5,
+                "weightPercent": 89,
+                "weight": 120
+              }
+            ],
+            "restBetweenSet": 120,
+            "executionStyle": "api/execution_styles/1"
+          },
+          {
+            "exerciseReference": "api/exercise_references/4",
+            "sets": [
+                {
+                    "reps": 6,
+                    "weightPercent": 60,
+                    "weight": 80
+                  },
+                  {
+                    "reps": 6,
+                    "weightPercent": 60,
+                    "weight": 80
+                  },
+                  {
+                    "reps": 6,
+                    "weightPercent": 60,
+                    "weight": 80
+                  },
+                  {
+                    "reps": 6,
+                    "weightPercent": 60,
+                    "weight": 80
+                  },
+                  {
+                    "reps": 6,
+                    "weightPercent": 60,
+                    "weight": 80
+                  }
+            ],
+            "restBetweenSet": 90,
+            "executionStyle": "api/execution_styles/2"
+          },
+          {
+            "exerciseReference": "api/exercise_references/5",
+            "sets": [
+                {
+                    "reps": 10,
+                    "weightPercent": null,
+                    "weight": 64
+                  },
+                  {
+                    "reps": 10,
+                    "weightPercent": null,
+                    "weight": 64
+                  },
+                  {
+                    "reps": 10,
+                    "weightPercent": null,
+                    "weight": 64
+                  },
+                  {
+                    "reps": 10,
+                    "weightPercent": null,
+                    "weight": 64
+                  },
+                  {
+                    "reps": 10,
+                    "weightPercent": null,
+                    "weight": 64
+                  }
+            ],
+            "restBetweenSet": 90,
+            "executionStyle": "api/execution_styles/2"
+          },
+          {
+            "exerciseReference": "api/exercise_references/6",
+            "sets": [
+                {
+                    "reps": 7,
+                    "weightPercent": 60,
+                    "weight": 25
+                  },
+                  {
+                    "reps": 7,
+                    "weightPercent": 60,
+                    "weight": 25
+                  },
+                  {
+                    "reps": 7,
+                    "weightPercent": 60,
+                    "weight": 25
+                  },
+                  {
+                    "reps": 7,
+                    "weightPercent": 60,
+                    "weight": 25
+                  },
+                  {
+                    "reps": 7,
+                    "weightPercent": 60,
+                    "weight": 25
+                  }
+
+            ],
+            "restBetweenSet": 60,
+            "executionStyle": "api/execution_styles/2"
+          }
+
+        ],
+        "restBetweenLoop": 180,
+        "numberOfLoops": 1
+      }
+    ],
+    "restBetweenCycles": 120
+  }

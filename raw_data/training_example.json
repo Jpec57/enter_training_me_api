@@ -1,4 +1,4 @@
-[
+
   {
     "name": "First Training",
     "author": null,
@@ -9,18 +9,18 @@
             "exerciseReference": "api/exercise_references/1",
             "sets": [
               {
-                "reps": 7,
+                "reps": 10,
                 "weightPercent": 0,
-                "weight": 150
+                "weight": null
               },
               {
-                "reps": 5,
+                "reps": 10,
                 "weightPercent": 0,
-                "weight": 150
+                "weight": null
               }
             ],
             "restBetweenSet": 60,
-            "executionStyle": 1
+            "executionStyle": "api/execution_styles/1"
           },
           {
             "exerciseReference": "api/exercise_references/2",
@@ -42,7 +42,7 @@
               }
             ],
             "restBetweenSet": 60,
-            "executionStyle": 2
+            "executionStyle": "api/execution_styles/2"
           }
         ],
         "restBetweenLoop": 180,
@@ -51,4 +51,3 @@
     ],
     "restBetweenCycles": 120
   }
-]
