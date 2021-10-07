@@ -9,7 +9,8 @@ Restrict access to moderators for following entities:
 - ExerciseReference
 - Training
 
-
 # Entity
 
 - Validator on ExecutionStyle:timeUnderTension
+
+php bin/console lexik:jwt:generate-keypair --overwrite
