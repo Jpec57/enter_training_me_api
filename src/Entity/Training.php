@@ -79,27 +79,32 @@ class Training
      */
     public function getEstimatedTimeInSeconds(): int
     {
+        $totalTime = 0;
         $totalCycleTime = 0;
         $nbCycles = count($this->cycles);
 
         if ($nbCycles == 0) {
             return 0;
         }
-        /** @var ExerciseCycle $firstCycle */
-        $firstCycle = $this->cycles[0];
-        foreach ($firstCycle->getExercises() as $exercise) {
-            // $exerciseReference = $exercise->getExerciseReference();
-            $sets = $exercise->getSets();
-            $totalExerciseTime = 0;
-            foreach ($sets as $set) {
-
-                $totalSetTime = $set->getReps() * $exercise->getTotalTimeUnderTension();
-                $totalExerciseTime += ($totalSetTime + $exercise->getRestBetweenSet());
+        foreach ($this->cycles as $cycle) {
+            $oneCycleTime = 0;
+            foreach ($cycle->getExercises() as $exercise) {
+                // $exerciseReference = $exercise->getExerciseReference();
+                $sets = $exercise->getSets();
+                $totalExerciseTime = 0;
+                foreach ($sets as $set) {
+                    $totalSetTime = $set->getReps() * $exercise->getTotalTimeUnderTension();
+                    $totalExerciseTime += ($totalSetTime + $exercise->getRestBetweenSet());
+                }
+                $oneCycleTime += $totalExerciseTime;
             }
-            $totalCycleTime += $totalExerciseTime;
-        }
+            $totalCycleTime = $oneCycleTime * $cycle->getNumberOfLoops() + ($cycle->getNumberOfLoops() - 1) * $cycle->getRestBetweenLoop();
 
-        return $totalCycleTime * $nbCycles + $this->restBetweenCycles * ($nbCycles - 1);
+            $totalTime += $totalCycleTime;
+        }
+        $totalTime += ((count($this->cycles) - 1) * $this->restBetweenCycles);
+
+        return $totalTime;
     }
 
     public function getId(): ?int
