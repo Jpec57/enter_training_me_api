@@ -18,9 +18,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         "get" => [
             'denormalization_context' => ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
         ],
-        "post" => [
+        "patch" => [
             'denormalization_context' => ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
-
         ]
     ],
     normalizationContext: ['groups' => ['default', 'summary', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
@@ -71,11 +70,24 @@ class Training
      */
     private $isOfficial;
 
+    /**
+     * @Groups({"default"})
+     * @ORM\ManyToOne(targetEntity=Training::class, inversedBy="realisedTrainings")
+     */
+    private $reference;
+
+    /**
+     * @Groups({"training_realised_training"})
+     * @ORM\OneToMany(targetEntity=Training::class, mappedBy="reference")
+     */
+    private $realisedTrainings;
+
     public function __construct()
     {
         $this->cycles = new ArrayCollection();
         $this->savedTrainings = new ArrayCollection();
         $this->isOfficial = false;
+        $this->realisedTrainings = new ArrayCollection();
     }
 
     /**
@@ -220,6 +232,48 @@ class Training
     public function setIsOfficial(bool $isOfficial): self
     {
         $this->isOfficial = $isOfficial;
+
+        return $this;
+    }
+
+    public function getReference(): ?self
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?self $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getRealisedTrainings(): Collection
+    {
+        return $this->realisedTrainings;
+    }
+
+    public function addRealisedTraining(self $realisedTraining): self
+    {
+        if (!$this->realisedTrainings->contains($realisedTraining)) {
+            $this->realisedTrainings[] = $realisedTraining;
+            $realisedTraining->setReference($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRealisedTraining(self $realisedTraining): self
+    {
+        if ($this->realisedTrainings->removeElement($realisedTraining)) {
+            // set the owning side to null (unless already changed)
+            if ($realisedTraining->getReference() === $this) {
+                $realisedTraining->setReference(null);
+            }
+        }
 
         return $this;
     }
