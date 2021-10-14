@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\TrainingRepository;
+use App\Services\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,10 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrainingController extends AbstractController
 {
     private $trainingRepository;
+    private $mailerService;
 
-    public function __construct(TrainingRepository $trainingRepository)
+    public function __construct(TrainingRepository $trainingRepository, MailerService $mailerService)
     {
         $this->trainingRepository = $trainingRepository;
+        $this->mailerService = $mailerService;
     }
 
     #[Route('/', name: "training_list", methods: ["GET"])]
@@ -43,5 +46,14 @@ class TrainingController extends AbstractController
     {
         $entities = $this->trainingRepository->findAll();
         return $this->json($entities, 200, [], ['groups' => ['summary']]);
+    }
+
+    #[Route('/{id}/share', name: "training_share_by_email", methods: ["GET"])]
+    public function shareTrainingByEmail(int $id): Response
+    {
+        $entity = $this->trainingRepository->findOneBy(['id' => $id]);
+        $trainingJson = $this->json($entity, 200, [], ['groups' => ['summary']]);
+        $this->mailerService->sendTrainingEmail(json_encode($trainingJson->getContent()));
+        return $this->json(['res' => "ok"], 200);
     }
 }

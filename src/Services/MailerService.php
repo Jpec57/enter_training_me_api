@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use DateTime;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
@@ -15,17 +16,18 @@ class MailerService
         $this->mailer = $mailerInterface;
     }
 
-    public function sendEmail()
+    public function sendTrainingEmail(string $trainingContent)
     {
         $senderEmail = 'enter.training.me@gmail.com';
         $receiverMail = 'jean.paul.bella@hotmail.fr';
+        $date = new DateTime();
         $email = (new Email())
             ->from($senderEmail)
             ->to($receiverMail)
             ->replyTo($senderEmail)
             // ->priority(Email::PRIORITY_HIGH)
-            ->subject('Your training')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
+            ->subject('Your training from ' + $date->toStrin)
+            ->html("<code>$trainingContent</code>");
 
         $this->mailer->send($email);
     }
