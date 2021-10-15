@@ -18,7 +18,9 @@ use App\Repository\ExerciseReferenceRepository;
 
 #[UniqueEntity('name')]
 #[ApiResource(
-    itemOperations: ["get"],
+    itemOperations: ["get" => [
+        'denormalizationContext' => ['groups' => ['default', 'exercise_reference_muscle_activation']],
+    ]],
     denormalizationContext: ['groups' => ['default', 'exercise_reference_muscle_activation']],
     normalizationContext: ['groups' => ['default', 'exercise_reference_muscle_activation']],
 )]
@@ -64,7 +66,7 @@ class ExerciseReference
     private $strainessFactor;
 
     /**
-     * @Groups({"exercise_reference_muscle_activation"})
+     * @Groups({"exercise_reference_muscle_activation", "default"})
      * @ORM\OneToMany(targetEntity=MuscleActivation::class, mappedBy="exerciseReference", cascade={"persist"})
      */
     private $muscleActivations;

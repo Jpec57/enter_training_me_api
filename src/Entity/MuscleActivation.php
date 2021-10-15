@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MuscleActivationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @ORM\Entity(repositoryClass=MuscleActivationRepository::class)
  */
@@ -13,16 +14,19 @@ class MuscleActivation
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
+     * @Groups({"default"})
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="string", length=255)
      */
     private $muscle;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="float")
      */
     private $activationRatio;
