@@ -51,6 +51,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $savedTrainings;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=FitnessTeam::class, inversedBy="members")
+     */
+    private $fitnessTeam;
+
+    /**
+     * @ORM\OneToOne(targetEntity=FitnessProfile::class, inversedBy="user", cascade={"persist", "remove"})
+     */
+    private $fitnessProfile;
+
     public function __construct()
     {
         $this->trainings = new ArrayCollection();
@@ -202,6 +212,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $savedTraining->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFitnessTeam(): ?FitnessTeam
+    {
+        return $this->fitnessTeam;
+    }
+
+    public function setFitnessTeam(?FitnessTeam $fitnessTeam): self
+    {
+        $this->fitnessTeam = $fitnessTeam;
+
+        return $this;
+    }
+
+    public function getFitnessProfile(): ?FitnessProfile
+    {
+        return $this->fitnessProfile;
+    }
+
+    public function setFitnessProfile(?FitnessProfile $fitnessProfile): self
+    {
+        $this->fitnessProfile = $fitnessProfile;
 
         return $this;
     }
