@@ -35,4 +35,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->persist($user);
         $this->_em->flush();
     }
+
+    // public function findByToken(){
+    //     return $this->createQueryBuilder('u')
+    //         ->andWhere('u.apiTokens ')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
 }
