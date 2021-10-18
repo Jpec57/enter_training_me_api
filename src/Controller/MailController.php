@@ -21,7 +21,7 @@ class MailController extends AbstractController
      */
     public function sendEmail(): Response
     {
-        $this->mailerService->sendEmail();
+        $this->mailerService->sendTrainingEmail("TOTO");
         return $this->json(['res' => 'ok'], 200);
     }
 }

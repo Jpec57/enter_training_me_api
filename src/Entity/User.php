@@ -61,10 +61,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $fitnessProfile;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ApiToken::class, mappedBy="associatedUser", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $apiTokens;
+
     public function __construct()
     {
         $this->trainings = new ArrayCollection();
         $this->savedTrainings = new ArrayCollection();
+        $this->apiTokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -236,6 +247,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFitnessProfile(?FitnessProfile $fitnessProfile): self
     {
         $this->fitnessProfile = $fitnessProfile;
+
+        return $this;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ApiToken[]
+     */
+    public function getApiTokens(): Collection
+    {
+        return $this->apiTokens;
+    }
+
+    public function addApiToken(ApiToken $apiToken): self
+    {
+        if (!$this->apiTokens->contains($apiToken)) {
+            $this->apiTokens[] = $apiToken;
+            $apiToken->setAssociatedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApiToken(ApiToken $apiToken): self
+    {
+        if ($this->apiTokens->removeElement($apiToken)) {
+            // set the owning side to null (unless already changed)
+            if ($apiToken->getAssociatedUser() === $this) {
+                $apiToken->setAssociatedUser(null);
+            }
+        }
 
         return $this;
     }

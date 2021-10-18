@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Interfaces\SummarizableEntityInterface;
 use App\Repository\TrainingRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TrainingRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 #[ApiResource(
     itemOperations: [
@@ -82,11 +84,23 @@ class Training
      */
     private $realisedTrainings;
 
+    /**
+     * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})
+     */
+    private $updatedAt;
+
     public function __construct()
     {
         $this->cycles = new ArrayCollection();
         $this->savedTrainings = new ArrayCollection();
         $this->isOfficial = false;
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
         $this->realisedTrainings = new ArrayCollection();
     }
 
@@ -276,5 +290,37 @@ class Training
         }
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreFlush
+     */
+    public function onPrePersistSetRegistrationDate()
+    {
+        $this->updatedAt = new \DateTime();
     }
 }
