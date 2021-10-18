@@ -14,10 +14,12 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
+     * @Groups({"default"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -25,6 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
@@ -52,16 +55,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $savedTrainings;
 
     /**
+     * @Groups({"user_team"})
      * @ORM\ManyToOne(targetEntity=FitnessTeam::class, inversedBy="members")
      */
     private $fitnessTeam;
 
     /**
+     * @Groups({"default"})
      * @ORM\OneToOne(targetEntity=FitnessProfile::class, inversedBy="user", cascade={"persist", "remove"})
      */
     private $fitnessProfile;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="string", length=255)
      */
     private $username;
@@ -71,11 +77,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $apiTokens;
 
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})     
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default" : 1})
+     * @Groups({"default"})
+     */
+    private $isMale = true;
+
     public function __construct()
     {
         $this->trainings = new ArrayCollection();
         $this->savedTrainings = new ArrayCollection();
         $this->apiTokens = new ArrayCollection();
+        $this->isMale = true;
     }
 
     public function getId(): ?int
@@ -284,6 +303,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $apiToken->setAssociatedUser(null);
             }
         }
+
+        return $this;
+    }
+
+
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function createDefaultProfile()
+    {
+        $this->createdAt = new \DateTime();
+        $this->fitnessProfile = new FitnessProfile();
+    }
+
+    public function getIsMale(): ?bool
+    {
+        return $this->isMale;
+    }
+
+    public function setIsMale(bool $isMale): self
+    {
+        $this->isMale = $isMale;
 
         return $this;
     }

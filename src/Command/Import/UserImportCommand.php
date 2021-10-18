@@ -54,6 +54,14 @@ class UserImportCommand extends Command
             // ->setFitnessProfile()
             ->setUsername("Jpec91");
         $this->entityManager->persist($testUser);
+
+        $testUser = new User();
+        $testUser->setEmail("admin@jpec.fr")
+            ->setRoles(["ROLE_ADMIN"])
+            ->setPassword($this->passwordEncoder->hashPassword($testUser, "test"))
+            // ->setFitnessProfile()
+            ->setUsername("Jpec57");
+        $this->entityManager->persist($testUser);
         $this->entityManager->flush();
         return Command::SUCCESS;
     }
