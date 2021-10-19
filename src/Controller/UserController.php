@@ -31,6 +31,9 @@ class UserController extends AbstractController
     #[Route('/feed', name: "user_feed", methods: ["GET"])]
     public function officialList(Request $request): Response
     {
+        if (!$this->getUser()) {
+            return $this->json([], 200);
+        }
         $page = $request->get('page') ?? 0;
         $limit = $request->get('limit') ?? 10;
         $entities = $this->trainingRepository->findForFeed($page, $limit);

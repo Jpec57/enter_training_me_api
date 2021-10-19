@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\TrainingController;
+use App\Controller\TrainingPublishController;
 use App\Interfaces\SummarizableEntityInterface;
 use App\Repository\TrainingRepository;
 use DateTime;
@@ -21,7 +23,24 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'denormalization_context' => ['groups' => ['exercise_reference_muscle_activation', 'default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
         ],
         "patch" => [
+            "security" => "is_granted('ROLE_ADMIN') or object.author == user",
             'denormalization_context' => ['groups' => ['exercise_reference_muscle_activation', 'default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
+        ],
+        "publish" => [
+            'method' => "POST",
+            "path" => "/trainings/{id}/publish",
+            "controller" => TrainingPublishController::class,
+            "security" => "is_granted('ROLE_ADMIN') or object.author == user",
+            "openapi_context" => [
+                "summary" => "Permet de publier un entrainement",
+                // "requestBody" => [
+                //     "content" => [
+                //         "application/json" => [
+                //             "schema" => []
+                //         ]
+                //     ]
+                // ]
+            ]
         ]
     ],
     normalizationContext: ['groups' => ['exercise_reference_muscle_activation', 'default', 'summary', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
@@ -47,7 +66,7 @@ class Training
      * @Groups({"training_user"})
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="trainings")
      */
-    private $author;
+    public $author;
 
     /**
      * @Groups({"training_exercise_cycle", "summary"})

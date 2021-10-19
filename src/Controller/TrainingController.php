@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Training;
 use App\Repository\TrainingRepository;
 use App\Services\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -18,6 +18,7 @@ use App\Repository\ExerciseReferenceRepository;
 
 #[UniqueEntity('name')]
 #[ApiResource(
+    attributes: ["security" => "is_granted('ROLE_ADMIN')"],
     itemOperations: ["get" => [
         'denormalizationContext' => ['groups' => ['default', 'exercise_reference_muscle_activation']],
     ]],
