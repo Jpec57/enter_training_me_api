@@ -11,6 +11,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ORM\Entity(repositoryClass=SavedTrainingRepository::class)
  */
 #[ApiResource(
+    attributes: ["security" =>  "is_granted('ROLE_ADMIN') or object.user == user"],
     normalizationContext: ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
     denormalizationContext: ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
 )]

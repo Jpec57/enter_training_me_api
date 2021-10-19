@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=ExerciseFormatRepository::class)
  */
 #[ApiResource(
+    attributes: ["security" => "is_granted('ROLE_ADMIN')"],
     itemOperations: ["get"],
     denormalizationContext: ['groups' => [
         'default', 'exercise_format_set'
