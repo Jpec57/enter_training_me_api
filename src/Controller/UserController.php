@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ApiTokenRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,12 +16,14 @@ class UserController extends AbstractController
 {
     private $trainingRepository;
     private $userRepository;
+    private $apiTokenRepository;
     private $mailerService;
 
-    public function __construct(UserRepository $userRepository, TrainingRepository $trainingRepository, MailerService $mailerService)
+    public function __construct(ApiTokenRepository $apiTokenRepository, UserRepository $userRepository, TrainingRepository $trainingRepository, MailerService $mailerService)
     {
         $this->trainingRepository = $trainingRepository;
         $this->userRepository = $userRepository;
+        $this->apiTokenRepository = $apiTokenRepository;
         $this->mailerService = $mailerService;
     }
 
@@ -37,7 +40,10 @@ class UserController extends AbstractController
     #[Route('/token/{token}', name: "user_by_token_action", methods: ["GET"])]
     public function getByTokenAction(Request $request, string $token): Response
     {
-        $user = $this->userRepository->findOneBy(['apiTokens' => $token]);
-        return $this->json($user, 200, [], ['groups' => ['default']]);
+        $token = $this->apiTokenRepository->findOneBy(['token' => $token]);
+        if (!$token) {
+            return $this->json(["message" => "Invalid token."], 400);
+        }
+        return $this->json($token->getAssociatedUser(), 200, [], ['groups' => ['default']]);
     }
 }

@@ -18,4 +18,6 @@ class ApiTokenRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ApiToken::class);
     }
+
+    // public func
 }
