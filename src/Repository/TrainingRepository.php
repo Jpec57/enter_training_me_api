@@ -27,20 +27,6 @@ class TrainingRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->setFirstResult($page * $limit)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    
-
-    /*
-    public function findOneBySomeField($value): ?Training
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

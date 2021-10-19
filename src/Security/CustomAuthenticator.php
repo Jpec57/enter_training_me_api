@@ -66,7 +66,6 @@ class CustomAuthenticator extends AbstractAuthenticator
     {
         $token = $this->getCredentials($request);
 
-        dump($token);
         if (null === $token) {
             // The token header was empty, authentication fails with HTTP Status
             // Code 401 "Unauthorized"
@@ -92,7 +91,6 @@ class CustomAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        dump("success");
         return null;
     }
 
