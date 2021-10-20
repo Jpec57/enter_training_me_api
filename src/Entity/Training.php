@@ -104,13 +104,11 @@ class Training
     private $realisedTrainings;
 
     /**
-     * @Groups({"default"})
      * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})
      */
     private $createdAt;
 
     /**
-     *  @Groups({"default"}) 
      * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})
      */
     private $updatedAt;
