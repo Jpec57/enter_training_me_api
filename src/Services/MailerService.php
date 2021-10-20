@@ -20,13 +20,12 @@ class MailerService
     {
         $senderEmail = 'enter.training.me@gmail.com';
         $receiverMail = 'jean.paul.bella@hotmail.fr';
-        $date = new DateTime();
         $email = (new Email())
             ->from($senderEmail)
             ->to($receiverMail)
             ->replyTo($senderEmail)
             // ->priority(Email::PRIORITY_HIGH)
-            ->subject('Your training from ' + $date->toStrin)
+            ->subject('Your training from ' + (new DateTime())->format('Y-m-d-H-i-s'))
             ->html("<code>$trainingContent</code>");
 
         $this->mailer->send($email);
