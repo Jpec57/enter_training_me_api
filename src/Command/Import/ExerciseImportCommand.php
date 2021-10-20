@@ -65,7 +65,6 @@ class ExerciseImportCommand extends Command
                     $isBodyWeight = $cells[$i + 5] == 1;
                     $exo = new ExerciseReference();
                     $exo
-                        //TODO
                         ->setReference("CH1")
                         ->setName($name)
                         ->setDescription($description)
