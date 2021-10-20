@@ -17,10 +17,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     attributes: ["security" => "is_granted('ROLE_ADMIN')"],
     itemOperations: ["get"],
     denormalizationContext: ['groups' => [
-        'default',
+        'default', "training"
     ]],
     normalizationContext: ['groups' => [
-        'default',
+        'default', "training"
     ]]
 )]
 #[UniqueEntity("name")]

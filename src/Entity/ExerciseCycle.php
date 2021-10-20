@@ -13,8 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=ExerciseCycleRepository::class)
  */
 #[ApiResource(
-    denormalizationContext: ['groups' => ['default', 'exercise_cycle_exercise']],
-    normalizationContext: ['groups' => ['default', 'exercise_cycle_exercise']],
+    denormalizationContext: ['groups' => ['default', 'exercise_cycle_exercise', "training"]],
+    normalizationContext: ['groups' => ['default', 'exercise_cycle_exercise',  "training"]],
 )]
 class ExerciseCycle
 {

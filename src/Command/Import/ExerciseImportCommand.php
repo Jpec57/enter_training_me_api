@@ -60,7 +60,7 @@ class ExerciseImportCommand extends Command
                 if (!empty($name)) {
                     $description = $cells[$i + 1];
                     $material = $this->handleListCell($cells[$i + 2]);
-                    $muscleActivations = json_decode($cells[$i + 3], true);
+                    $muscleActivations = json_decode($cells[$i + 3]);
                     $strainessFactor = floatval($cells[$i + 4]);
                     $isBodyWeight = $cells[$i + 5] == 1;
                     $exo = new ExerciseReference();
@@ -72,12 +72,13 @@ class ExerciseImportCommand extends Command
                         ->setMaterial($material)
                         ->setIsBodyweightExercise($isBodyWeight)
                         ->setStrainessFactor($strainessFactor);
+
                     if ($muscleActivations) {
                         foreach ($muscleActivations as $muscleActivationMap) {
                             $muscleActivation = new MuscleActivation();
                             $muscleActivation
-                                ->setMuscle($muscleActivationMap["muscle"])
-                                ->setActivationRatio($muscleActivationMap["activationRatio"]);
+                                ->setMuscle($muscleActivationMap->muscle)
+                                ->setActivationRatio($muscleActivationMap->activationRatio);
                             $exo->addMuscleActivation($muscleActivation);
                         }
                     }

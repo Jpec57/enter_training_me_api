@@ -15,16 +15,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     // itemOperations: [
-        // "put" => ["security" => "is_granted('ROLE_ADMIN') or object.owner == user"],
-        // "patch" => ["security" => "is_granted('ROLE_ADMIN') or object.owner == user"],
+    // "put" => ["security" => "is_granted('ROLE_ADMIN') or object.owner == user"],
+    // "patch" => ["security" => "is_granted('ROLE_ADMIN') or object.owner == user"],
     // ],
     denormalizationContext: ['groups' => [
         'default',
-        'realised_exercise_set', 'realised_exercise_execution_style',
+        'realised_exercise_set', 'realised_exercise_execution_style', 'training',
         'realised_exercise_exercise_reference'
     ]],
     normalizationContext: ['groups' => [
-        'default',
+        'default', 'training',
         'realised_exercise_set', 'realised_exercise_execution_style',
         'realised_exercise_exercise_reference'
     ]]
@@ -60,7 +60,7 @@ class RealisedExercise
     private $restBetweenSet;
 
     /**
-     * @Groups({"realised_exercise_execution_style", "summary"}) 
+     * @Groups({"realised_exercise_execution_style", "summary", "training"}) 
      * @ORM\ManyToOne(targetEntity=ExecutionStyle::class)
      */
     private $executionStyle;

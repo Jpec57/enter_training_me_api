@@ -20,11 +20,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     itemOperations: [
         "get" => [
-            'denormalization_context' => ['groups' => ['exercise_reference_muscle_activation', 'default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
+            'denormalization_context' => ['groups' => ['training', 'exercise_reference_muscle_activation', 'default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
         ],
         "patch" => [
             "security" => "is_granted('ROLE_ADMIN') or object.author == user",
-            'denormalization_context' => ['groups' => ['exercise_reference_muscle_activation', 'default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
+            'denormalization_context' => ['groups' => ['training', 'exercise_reference_muscle_activation', 'default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
         ],
         "publish" => [
             'method' => "POST",
@@ -43,8 +43,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ]
         ]
     ],
-    normalizationContext: ['groups' => ['exercise_reference_muscle_activation', 'default', 'summary', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
-    denormalizationContext: ['groups' => ['exercise_reference_muscle_activation', 'default',  'summary', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
+    normalizationContext: ['groups' => ['training', 'exercise_reference_muscle_activation', 'default', 'summary', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
+    denormalizationContext: ['groups' => ['training', 'exercise_reference_muscle_activation', 'default',  'summary', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
 )]
 class Training
 {
@@ -69,7 +69,7 @@ class Training
     public $author;
 
     /**
-     * @Groups({"training_exercise_cycle", "summary"})
+     * @Groups({"training_exercise_cycle", "summary", "training"})
      * @ORM\OneToMany(targetEntity=ExerciseCycle::class, mappedBy="training", cascade={"persist"})
      */
     private $cycles;

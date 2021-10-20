@@ -2,6 +2,7 @@
   {
     "name": "First Training",
     "author": null,
+    "isOfficial": true,
     "cycles": [
       {
         "exercises": [
