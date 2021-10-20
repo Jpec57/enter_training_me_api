@@ -25,7 +25,7 @@ class MailerService
             ->to($receiverMail)
             ->replyTo($senderEmail)
             // ->priority(Email::PRIORITY_HIGH)
-            ->subject('Your training from ' + (new DateTime())->format('Y-m-d-H-i-s'))
+            ->subject('Your training from ' . (new DateTime())->format('Y-m-d-H-i-s'))
             ->html("<code>$trainingContent</code>");
 
         $this->mailer->send($email);
