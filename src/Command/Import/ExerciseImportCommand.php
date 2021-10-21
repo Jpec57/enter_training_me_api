@@ -44,14 +44,10 @@ class ExerciseImportCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $this->entityManager->getConnection()->executeQuery("SET FOREIGN_KEY_CHECKS=0;");
+
         if ($input->getOption('reset')) {
-            $repo = $this->entityManager->getRepository(ExerciseReference::class);
-            $entities = $repo->findAll();
-            foreach ($entities as $entity) {
-                $this->entityManager->remove($entity);
-            }
-            $this->entityManager->flush();
+            $this->entityManager->getConnection()->executeQuery("SET FOREIGN_KEY_CHECKS=0;");
+            $this->entityManager->getConnection()->executeQuery("truncate table exercise_reference;");
         }
         $content = file_get_contents($this->projectDir . "raw_data/exercise_import.tsv");
         if ($content) {
