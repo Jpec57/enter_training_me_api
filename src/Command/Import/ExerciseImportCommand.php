@@ -44,6 +44,7 @@ class ExerciseImportCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $this->entityManager->getConnection()->executeQuery("SET FOREIGN_KEY_CHECKS=0;");
         if ($input->getOption('reset')) {
             $repo = $this->entityManager->getRepository(ExerciseReference::class);
             $entities = $repo->findAll();
@@ -52,7 +53,7 @@ class ExerciseImportCommand extends Command
             }
             $this->entityManager->flush();
         }
-        $content = file_get_contents($this->projectDir . "raw_data/exercise_import.txt");
+        $content = file_get_contents($this->projectDir . "raw_data/exercise_import.tsv");
         if ($content) {
             $cells = preg_split("/\t|\n/", $content);
             for ($i = ExerciseImportCommand::columnNumber; $i < count($cells); $i = $i + ExerciseImportCommand::columnNumber) {
@@ -87,6 +88,8 @@ class ExerciseImportCommand extends Command
             }
             $this->entityManager->flush();
         }
+        $this->entityManager->getConnection()->executeQuery("SET FOREIGN_KEY_CHECKS=1;");
+
         $io->success("Exercises imported.");
 
         return Command::SUCCESS;
