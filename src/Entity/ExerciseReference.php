@@ -18,10 +18,16 @@ use App\Repository\ExerciseReferenceRepository;
 
 #[UniqueEntity('name')]
 #[ApiResource(
-    attributes: ["security" => "is_granted('ROLE_ADMIN')"],
-    itemOperations: ["get" => [
-        'denormalizationContext' => ['groups' => ['default', 'exercise_reference_muscle_activation']],
-    ]],
+    // attributes: ["security" => "is_granted('ROLE_ADMIN')"], 
+    itemOperations: [
+        "patch" => [
+            "security" => "is_granted('ROLE_ADMIN')",
+            'denormalizationContext' => ['groups' => ['default', 'exercise_reference_muscle_activation']],
+        ],
+        "get" => [
+            'denormalizationContext' => ['groups' => ['default', 'exercise_reference_muscle_activation']],
+        ]
+    ],
     denormalizationContext: ['groups' => ['default', 'exercise_reference_muscle_activation']],
     normalizationContext: ['groups' => ['default', 'exercise_reference_muscle_activation']],
 )]

@@ -14,7 +14,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=ExecutionStyleRepository::class)
  */
 #[ApiResource(
-    attributes: ["security" => "is_granted('ROLE_ADMIN')"],
     itemOperations: ["get"],
     denormalizationContext: ['groups' => [
         'default', "training"
