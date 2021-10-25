@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Training;
+use App\Entity\SavedTraining;
+use App\Entity\User;
+use App\Repository\SavedTrainingRepository;
 use App\Repository\TrainingRepository;
 use App\Services\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,14 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrainingController extends AbstractController
 {
     private $trainingRepository;
+    private $savedTrainingRepository;
     private $mailerService;
     private $entityManager;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         TrainingRepository $trainingRepository,
+        SavedTrainingRepository $savedTrainingRepository,
         MailerService $mailerService
     ) {
+        $this->savedTrainingRepository = $savedTrainingRepository;
         $this->trainingRepository = $trainingRepository;
         $this->mailerService = $mailerService;
         $this->entityManager = $entityManager;
@@ -72,8 +77,14 @@ class TrainingController extends AbstractController
         if (is_null($viewer)) {
             return $this->json(["error" => "You must be connected to save training"], 403);
         }
+        if (count($this->savedTrainingRepository->findBy(['trainingReference' => $id, 'user' => $viewer])) > 0) {
+            return $this->json(['res' => "already saved"], 200);
+        }
         $entity = $this->trainingRepository->findOneBy(['id' => $id]);
-        $viewer->addSavedTraining($entity);
+        $savedTraining = new SavedTraining();
+        $savedTraining->setTrainingReference($entity);
+        $savedTraining->setUser($viewer);
+        $viewer->addSavedTraining($savedTraining);
         $this->entityManager->flush();
         return $this->json(['res' => "ok"], 200);
     }
@@ -86,9 +97,25 @@ class TrainingController extends AbstractController
         if (is_null($viewer)) {
             return $this->json(["error" => "You must be connected to unsave training"], 403);
         }
-        $entity = $this->trainingRepository->findOneBy(['id' => $id]);
+        $entity = $this->savedTrainingRepository->findOneBy(['trainingReference' => $id]);
+        if (is_null($entity)) {
+            return $this->json(['error' => "not found"], 400);
+        }
         $viewer->removeSavedTraining($entity);
         $this->entityManager->flush();
         return $this->json(['res' => "ok"], 200);
+    }
+
+
+    #[Route('/saved', name: "training_saved_list", methods: ["GET"])]
+    public function savedTrainingListAction(): Response
+    {
+        /** @var User $viewer */
+        $viewer = $this->getUser();
+        if (is_null($viewer)) {
+            return $this->json(["error" => "You must be connected to unsave training"], 403);
+        }
+        $entities = $this->savedTrainingRepository->findBy(['user' => $viewer]);
+        return $this->json($entities, 200, [], ['groups' => ['default', 'training',  'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
     }
 }

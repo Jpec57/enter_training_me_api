@@ -50,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $trainings;
 
     /**
-     * @ORM\OneToMany(targetEntity=SavedTraining::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=SavedTraining::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $savedTrainings;
 
