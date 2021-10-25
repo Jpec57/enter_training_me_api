@@ -6,6 +6,7 @@ use App\Repository\SavedTrainingRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiResource;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=SavedTrainingRepository::class)
@@ -43,6 +44,11 @@ class SavedTraining
      * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})
      */
     private $createdDate;
+
+    public function __construct()
+    {
+        $this->createdDate = new DateTime();
+    }
 
     public function getId(): ?int
     {
