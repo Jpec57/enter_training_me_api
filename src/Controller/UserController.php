@@ -35,7 +35,7 @@ class UserController extends AbstractController
             return $this->json([], 200);
         }
         $page = $request->get('page') ?? 0;
-        $limit = $request->get('limit') ?? 10;
+        $limit = $request->get('limit') ?? 5;
         $entities = $this->trainingRepository->findForFeed($page, $limit);
         return $this->json($entities, 200, [], ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
     }

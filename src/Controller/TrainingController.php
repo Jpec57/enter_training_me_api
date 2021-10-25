@@ -117,10 +117,10 @@ class TrainingController extends AbstractController
         if (is_null($viewer)) {
             return $this->json([], 403);
         }
-        $entities = $this->savedTrainingRepository->findBy(['user' => $viewer]);
+        $entities = $this->savedTrainingRepository->findBy(['user' => $viewer], ['createdDate' => 'DESC']);
         foreach ($entities as $entity) {
             $trainings[] = $entity->getTrainingReference();
         }
-        return $this->json($trainings, 200, [], ['groups' => ['default', 'training',  'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
+        return $this->json($trainings, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
     }
 }

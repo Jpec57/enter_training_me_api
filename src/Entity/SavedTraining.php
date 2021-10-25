@@ -38,6 +38,12 @@ class SavedTraining
      */
     private $user;
 
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})
+     */
+    private $createdDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,6 +69,18 @@ class SavedTraining
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCreatedDate(): ?\DateTimeInterface
+    {
+        return $this->createdDate;
+    }
+
+    public function setCreatedDate(\DateTimeInterface $createdDate): self
+    {
+        $this->createdDate = $createdDate;
 
         return $this;
     }
