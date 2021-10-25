@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Training;
 use App\Repository\TrainingRepository;
 use App\Services\MailerService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,11 +15,16 @@ class TrainingController extends AbstractController
 {
     private $trainingRepository;
     private $mailerService;
+    private $mailerService;
 
-    public function __construct(TrainingRepository $trainingRepository, MailerService $mailerService)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        TrainingRepository $trainingRepository,
+        MailerService $mailerService
+    ) {
         $this->trainingRepository = $trainingRepository;
         $this->mailerService = $mailerService;
+        $this->entityManager = $entityManager;
     }
 
     #[Route('/', name: "training_list", methods: ["GET"])]
@@ -55,6 +61,34 @@ class TrainingController extends AbstractController
         $entity = $this->trainingRepository->findOneBy(['id' => $id]);
         $trainingJson = $this->json($entity, 200, [], ['groups' => ['summary']]);
         $this->mailerService->sendTrainingEmail(json_encode($trainingJson->getContent()));
+        return $this->json(['res' => "ok"], 200);
+    }
+
+    #[Route('/{id}/save', name: "training_save", methods: ["GET"])]
+    public function saveTrainingAction(int $id): Response
+    {
+        /** @var User $viewer */
+        $viewer = $this->getUser();
+        if (is_null($viewer)) {
+            return $this->json(["error" => "You must be connected to save training"], 403);
+        }
+        $entity = $this->trainingRepository->findOneBy(['id' => $id]);
+        $viewer->addSavedTraining($entity);
+        $this->entityManager->flush();
+        return $this->json(['res' => "ok"], 200);
+    }
+
+    #[Route('/{id}/unsave', name: "training_unsave", methods: ["GET"])]
+    public function unsaveTrainingAction(int $id): Response
+    {
+        /** @var User $viewer */
+        $viewer = $this->getUser();
+        if (is_null($viewer)) {
+            return $this->json(["error" => "You must be connected to unsave training"], 403);
+        }
+        $entity = $this->trainingRepository->findOneBy(['id' => $id]);
+        $viewer->removeSavedTraining($entity);
+        $this->entityManager->flush();
         return $this->json(['res' => "ok"], 200);
     }
 }

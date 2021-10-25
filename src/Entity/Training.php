@@ -125,6 +125,10 @@ class Training
         $this->realisedTrainings = new ArrayCollection();
     }
 
+    // public function isTrainingSaved() : bool {
+    //     return $this->isOfficial || 
+    // }
+
     /**
      * @Groups({"default"})
      */
