@@ -15,7 +15,7 @@ class TrainingController extends AbstractController
 {
     private $trainingRepository;
     private $mailerService;
-    private $mailerService;
+    private $entityManager;
 
     public function __construct(
         EntityManagerInterface $entityManager,
