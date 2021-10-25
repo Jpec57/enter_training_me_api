@@ -112,10 +112,15 @@ class TrainingController extends AbstractController
     {
         /** @var User $viewer */
         $viewer = $this->getUser();
+        $trainings = [];
+
         if (is_null($viewer)) {
-            return $this->json(["error" => "You must be connected to unsave training"], 403);
+            return $this->json([], 403);
         }
         $entities = $this->savedTrainingRepository->findBy(['user' => $viewer]);
-        return $this->json($entities, 200, [], ['groups' => ['default', 'training',  'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
+        foreach ($entities as $entity) {
+            $trainings[] = $entity->getTrainingReference();
+        }
+        return $this->json($trainings, 200, [], ['groups' => ['default', 'training',  'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
     }
 }
