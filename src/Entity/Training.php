@@ -125,9 +125,19 @@ class Training
         $this->realisedTrainings = new ArrayCollection();
     }
 
-    // public function isTrainingSaved() : bool {
-    //     return $this->isOfficial || 
-    // }
+    /**
+    * @Groups({"default", "summary"})
+    */
+    public function getIntensity(): float
+    {
+        $intensity = 0;
+        foreach ($this->cycles as $cycle) {
+            foreach ($cycle->getExercises() as $exercise) {
+                $intensity += $exercise->getIntensity();
+            }
+        }
+        return $intensity;
+    }
 
     /**
      * @Groups({"default"})

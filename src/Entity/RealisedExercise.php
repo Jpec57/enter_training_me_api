@@ -76,6 +76,21 @@ class RealisedExercise
         $this->sets = new ArrayCollection();
     }
 
+    /**
+     * @Groups({"default", "summary"})
+     */
+    public function getIntensity(): float
+    {
+        $nbSets = count($this->sets);
+        $difficulty = $this->exerciseReference->getStrainessFactor();
+
+        $intensity = 0;
+        foreach ($this->sets as $set) {
+            $intensity += (1 + $set->getWeight() ?? 70) * $set->getReps();
+        }
+        return $difficulty * $intensity;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
