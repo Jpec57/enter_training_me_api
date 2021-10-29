@@ -65,6 +65,7 @@ class SecurityController extends AbstractController
     #[Route('/register', name: 'create_user', methods: ["POST"])]
     public function createUser(Request $request, UserPasswordHasherInterface $passwordEncoder): JsonResponse
     {
+
         $data = json_decode($request->getContent(), true);
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -72,6 +73,9 @@ class SecurityController extends AbstractController
         $form->submit($data);
         if ($form->isSubmitted() && !$form->isValid()) {
             return $this->json(['errors' => $form->getErrors(true, true)], JsonResponse::HTTP_BAD_REQUEST);
+        }
+        if ($this->userRepository->findOneBy(['email' => $user->getEmail()])) {
+            return $this->json(['errors' => "A user with this email already exists."], JsonResponse::HTTP_BAD_REQUEST);
         }
         $clearPassword = $data['password'];
         $user->setPassword($passwordEncoder->hashPassword(
