@@ -93,7 +93,7 @@ class UserController extends AbstractController
         $res = [];
         $res['user'] = $serializer->normalize($user, null, ['groups' => ['default']]);
         $res["trainingCount"] = $trainingCount;
-        $res["lastTrainings"] = $serializer->normalize($trainings, null, ['groups' => ['default']]);
+        $res["lastTrainings"] = $serializer->normalize($trainings, null, ['groups' => ['default', 'summary']]);
         return $this->json($res);
     }
 }
