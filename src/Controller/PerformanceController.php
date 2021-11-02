@@ -27,4 +27,17 @@ class PerformanceController extends AbstractController
         $sets = $this->setRepository->findByReferenceExo($referenceExerciseId, $viewer ? $viewer->getId() : null);
         return $this->json($sets, 200, [], ['groups' => ['default', 'performance']]);
     }
+
+    #[Route('/users/{userId}/exercises/{referenceExerciseId}', name: 'exercise_performance_show')]
+    public function showOtherUserExercisePerfomance(int $userId, int $referenceExerciseId): Response
+    {
+        $viewer = $this->getUser();
+        $user = $this->userRepository->find($userId);
+        if (!$user) {
+            return $this->json(["error" => "not found", 404]);
+        }
+
+        $sets = $this->setRepository->findByReferenceExo($referenceExerciseId, $user->getId());
+        return $this->json($sets, 200, [], ['groups' => ['default', 'performance']]);
+    }
 }
