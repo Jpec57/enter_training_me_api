@@ -29,3 +29,7 @@ services:
     #     class: App\Command\ExerciseImportCommand
     #     arguments: 
     #         - $projectDir: "%kernel.project_dir%" 
+    serializer.normalizer.datetime:
+            class: App\Normalizer\DateTimeNormalizer
+            tags:
+                - { name: serializer.normalizer }

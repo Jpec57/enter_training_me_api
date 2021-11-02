@@ -333,7 +333,7 @@ class Training
 
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = $createdAt ?? new DateTime();
 
         return $this;
     }
