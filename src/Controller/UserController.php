@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Repository\ApiTokenRepository;
+use App\Repository\ExerciseReferenceRepository;
+use App\Repository\RealisedExerciseRepository;
+use App\Repository\SetRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,16 +18,37 @@ use App\Services\MailerService;
 class UserController extends AbstractController
 {
     private $trainingRepository;
-    private $userRepository;
+    private $realisedExerciseRepository;
+    private $referenceExoRepo;
     private $apiTokenRepository;
     private $mailerService;
 
-    public function __construct(ApiTokenRepository $apiTokenRepository, UserRepository $userRepository, TrainingRepository $trainingRepository, MailerService $mailerService)
+    public function __construct(ExerciseReferenceRepository $referenceExoRepo, RealisedExerciseRepository $realisedExerciseRepository, ApiTokenRepository $apiTokenRepository, UserRepository $userRepository, TrainingRepository $trainingRepository, MailerService $mailerService)
     {
         $this->trainingRepository = $trainingRepository;
         $this->userRepository = $userRepository;
         $this->apiTokenRepository = $apiTokenRepository;
         $this->mailerService = $mailerService;
+        $this->realisedExerciseRepository = $realisedExerciseRepository;
+        $this->referenceExoRepo = $referenceExoRepo;
+    }
+
+
+
+    #[Route('/realised_exercises', name: "user_realised_exo_list", methods: ["GET"])]
+    public function getRealisedExercisesByUserList(Request $request): Response
+    {
+        $viewer = $this->getUser();
+        if (!$viewer) {
+            return $this->json([], 200);
+        }
+
+        $ids = $this->realisedExerciseRepository->findReferenceExerciseIdsByUser($viewer->getId());
+        $entities = [];
+        if ($ids && !empty($ids)) {
+            $entities = $this->referenceExoRepo->findBy(["id" => $ids]);
+        }
+        return $this->json($entities, 200, [], ['groups' => ['default']]);
     }
 
 

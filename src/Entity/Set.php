@@ -26,7 +26,7 @@ class Set
     private $id;
 
     /**
-     * @Groups({"default", "summary"})
+     * @Groups({"default", "summary", "performance"})
      * @ORM\Column(type="integer")
      */
     private $reps;
@@ -38,7 +38,7 @@ class Set
     private $weightPercent;
 
     /**
-     * @Groups({"default", "summary"})
+     * @Groups({"default", "summary", "performance"})
      * @ORM\Column(type="float", nullable=true)
      */
     private $weight;
@@ -63,7 +63,7 @@ class Set
     private $user;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "performance"})
      * @ORM\Column(type="datetime", nullable=true, options={"default" : "CURRENT_TIMESTAMP"})
      */
     private $realisedDate;

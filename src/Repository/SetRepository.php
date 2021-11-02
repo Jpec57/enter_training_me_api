@@ -19,32 +19,26 @@ class SetRepository extends ServiceEntityRepository
         parent::__construct($registry, Set::class);
     }
 
-    // /**
-    //  * @return Set[] Returns an array of Set objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Set
+    public function findByReferenceExo(int $refExoId, ?int $userId = null)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+        $params = [
+            'refExoId' => $refExoId
+        ];
+
+        $qb = $this->createQueryBuilder('s')
+            ->leftJoin('s.realisedExercise', 'doneExo')
+            ->leftJoin('doneExo.exerciseReference', 'refExo')
+            ->andWhere('refExo = :refExoId');
+
+        if ($userId) {
+            $params['userId'] = $userId;
+            $qb = $qb->andWhere("s.user = :userId");
+        }
+
+        return $qb
+            ->setParameters($params)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

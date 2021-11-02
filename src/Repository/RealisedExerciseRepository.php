@@ -19,32 +19,27 @@ class RealisedExerciseRepository extends ServiceEntityRepository
         parent::__construct($registry, RealisedExercise::class);
     }
 
-    // /**
-    //  * @return RealisedExercise[] Returns an array of RealisedExercise objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?RealisedExercise
+    public function findReferenceExerciseIdsByUser(int $userId)
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
+        $params = [
+            'userId' => $userId
+        ];
+
+        $qb = $this->createQueryBuilder('e')
+            ->select('ref.id as referenceId')
+            ->leftJoin('e.exerciseReference', 'ref')
+            ->leftJoin('e.sets', 's')
+            ->andWhere('s.user = :userId')
+            ->groupBy('ref.id');
+
+        $res = $qb
+            ->setParameters($params)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getArrayResult();
+
+        return array_map(function ($item) {
+            return $item['referenceId'];
+        }, $res);
     }
-    */
 }
