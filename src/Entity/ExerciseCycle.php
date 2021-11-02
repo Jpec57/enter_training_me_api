@@ -28,7 +28,7 @@ class ExerciseCycle
 
     /**
      * @Groups({"exercise_cycle_exercise", "summary"})
-     * @ORM\OneToMany(targetEntity=RealisedExercise::class, mappedBy="exerciseCycle", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=RealisedExercise::class, mappedBy="exerciseCycle", cascade={"persist", "remove"})
      */
     private $exercises;
 

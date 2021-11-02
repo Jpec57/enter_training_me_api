@@ -69,7 +69,7 @@ class Training
 
     /**
      * @Groups({"training_exercise_cycle", "summary", "training"})
-     * @ORM\OneToMany(targetEntity=ExerciseCycle::class, mappedBy="training", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=ExerciseCycle::class, mappedBy="training", cascade={"persist", "remove"})
      */
     private $cycles;
 
@@ -80,7 +80,7 @@ class Training
     private $restBetweenCycles;
 
     /**
-     * @ORM\OneToMany(targetEntity=SavedTraining::class, mappedBy="trainingReference")
+     * @ORM\OneToMany(targetEntity=SavedTraining::class, mappedBy="trainingReference", cascade={"persist", "remove"})
      */
     private $savedTrainings;
 

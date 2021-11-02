@@ -49,7 +49,7 @@ class RealisedExercise
 
     /**
      * @Groups({"realised_exercise_set", "summary"})
-     * @ORM\OneToMany(targetEntity=Set::class, mappedBy="realisedExercise", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Set::class, mappedBy="realisedExercise", cascade={"persist", "remove"})
      */
     private $sets;
 
