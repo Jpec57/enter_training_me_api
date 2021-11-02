@@ -25,7 +25,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
         ],
         "patch" => [
             "security" => "is_granted('ROLE_ADMIN') or object.author == user",
-            'denormalization_context' => ['groups' => ['training', 'exercise_reference_muscle_activation', 'default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
+            'denormalization_context' => ['groups' => ['training', 'exercise_reference_muscle_activation', 'default',  'summary', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],
         ],
         "delete" => [
             "security" => "is_granted('ROLE_ADMIN') or object.author == user",

@@ -30,6 +30,12 @@ services:
     #     arguments: 
     #         - $projectDir: "%kernel.project_dir%" 
     serializer.normalizer.datetime:
-            class: App\Normalizer\DateTimeNormalizer
-            tags:
-                - { name: serializer.normalizer }
+        class: App\Normalizer\DateTimeNormalizer
+        tags:
+            - { name: serializer.normalizer }
+
+
+    App\EventSubscriber\TrainingCreationSubscriber:
+        class: App\EventSubscriber\TrainingCreationSubscriber 
+        tags:
+            - { name: doctrine.orm.entity_listener, lazy: true }

@@ -56,6 +56,18 @@ class Set
      */
     private $realisedExercise;
 
+    /**
+     * @Groups({"performance"})
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $user;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="datetime", nullable=true, options={"default" : "CURRENT_TIMESTAMP"})
+     */
+    private $realisedDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -117,6 +129,30 @@ class Set
     public function setRealisedExercise(?RealisedExercise $realisedExercise): self
     {
         $this->realisedExercise = $realisedExercise;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getRealisedDate(): ?\DateTimeInterface
+    {
+        return $this->realisedDate;
+    }
+
+    public function setRealisedDate(?\DateTimeInterface $realisedDate): self
+    {
+        $this->realisedDate = $realisedDate;
 
         return $this;
     }
