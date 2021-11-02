@@ -91,9 +91,9 @@ class UserController extends AbstractController
         $trainingCount = $this->trainingRepository->count(['author' => $user]);
         $trainings = $this->trainingRepository->findBy(['author' => $user], ['createdAt' => 'DESC'], 5, 0);
         $res = [];
-        $res['user'] = $serializer->normalize($user, null, ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
+        $res['user'] = $serializer->normalize($user, null, ['groups' => ['default']]);
         $res["trainingCount"] = $trainingCount;
-        $res["lastTrainings"] = $trainings;
+        $res["lastTrainings"] = $serializer->normalize($trainings, null, ['groups' => ['default']]);
         return $this->json($res);
     }
 }
