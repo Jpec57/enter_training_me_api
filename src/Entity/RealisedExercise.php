@@ -9,15 +9,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
  * @ORM\Entity(repositoryClass=RealisedExerciseRepository::class)
  */
 #[ApiResource(
-    // itemOperations: [
-    // "put" => ["security" => "is_granted('ROLE_ADMIN') or object.owner == user"],
-    // "patch" => ["security" => "is_granted('ROLE_ADMIN') or object.owner == user"],
-    // ],
     denormalizationContext: ['groups' => [
         'default',
         'realised_exercise_set', 'realised_exercise_execution_style', 'training',
@@ -51,6 +48,7 @@ class RealisedExercise
      * @Groups({"realised_exercise_set", "summary"})
      * @ORM\OneToMany(targetEntity=Set::class, mappedBy="realisedExercise", cascade={"persist", "remove"})
      */
+    #[ApiSubresource]
     private $sets;
 
     /**

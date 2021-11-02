@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
  * @ORM\Entity(repositoryClass=ExerciseCycleRepository::class)
@@ -30,6 +31,7 @@ class ExerciseCycle
      * @Groups({"exercise_cycle_exercise", "summary"})
      * @ORM\OneToMany(targetEntity=RealisedExercise::class, mappedBy="exerciseCycle", cascade={"persist", "remove"})
      */
+    #[ApiSubresource]
     private $exercises;
 
     /**

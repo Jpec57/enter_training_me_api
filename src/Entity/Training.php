@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
  * @ORM\Entity(repositoryClass=TrainingRepository::class)
@@ -71,6 +72,7 @@ class Training
      * @Groups({"training_exercise_cycle", "summary", "training"})
      * @ORM\OneToMany(targetEntity=ExerciseCycle::class, mappedBy="training", cascade={"persist", "remove"})
      */
+    #[ApiSubresource]
     private $cycles;
 
     /**
@@ -114,6 +116,12 @@ class Training
      */
     private $updatedAt;
 
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="boolean", options={"default" : 1})
+     */
+    private $hasBeenRealisedOnceByUser;
+
     public function __construct()
     {
         $this->cycles = new ArrayCollection();
@@ -121,6 +129,7 @@ class Training
         $this->isOfficial = false;
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
+        $this->hasBeenRealisedOnceByUser = true;
         $this->realisedTrainings = new ArrayCollection();
     }
 
@@ -356,5 +365,17 @@ class Training
     public function onPrePersistSetRegistrationDate()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function getHasBeenRealisedOnceByUser(): ?bool
+    {
+        return $this->hasBeenRealisedOnceByUser;
+    }
+
+    public function setHasBeenRealisedOnceByUser(bool $hasBeenRealisedOnceByUser): self
+    {
+        $this->hasBeenRealisedOnceByUser = $hasBeenRealisedOnceByUser;
+
+        return $this;
     }
 }
