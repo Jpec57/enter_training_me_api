@@ -29,4 +29,13 @@ class TrainingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
+    public function countByUser(int $userId)
+    {
+        return $this->createQueryBuilder('t')
+            ->setParameter("userId", $userId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

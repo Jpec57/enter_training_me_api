@@ -17,16 +17,4 @@ class TestController extends AbstractController
             'controller_name' => 'TestController',
         ]);
     }
-
-
-    public function publish(HubInterface $hub): Response
-    {
-        $update = new Update(
-            '/books/1',
-            json_encode(['status' => 'OutOfStock'])
-        );
-        $hub->publish($update);
-
-        return $this->json(["message" => "published"]);
-    }
 }

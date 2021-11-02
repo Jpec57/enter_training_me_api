@@ -13,6 +13,7 @@ use App\Repository\TrainingRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Services\MailerService;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api/users')]
 class UserController extends AbstractController
@@ -72,5 +73,26 @@ class UserController extends AbstractController
             return $this->json(["message" => "Invalid token."], 400);
         }
         return $this->json($token->getAssociatedUser(), 200, [], ['groups' => ['default']]);
+    }
+
+
+    #[Route('/{id}/infos', name: "user_profile_info", methods: ["GET"])]
+    public function getUserProfileInfo(SerializerInterface $serializer, int $id): Response
+    {
+        $viewer = $this->getUser();
+        $user = $this->userRepository->find($id);
+        if (!$user) {
+            return $this->json([], 404);
+        }
+        if (!$viewer || $viewer->getId() != $user->getId()) {
+            return $this->json([], 403);
+        }
+
+        $trainingCount = $this->trainingRepository->count(['author' => $user]);
+        $trainings = $this->trainingRepository->findBy(['author' => $user], ['createdAt' => 'DESC'], 5, 0);
+        $res = $serializer->normalize($user, null, ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
+        $res["trainingCount"] = $trainingCount;
+        $res["lastTrainings"] = $trainings;
+        return $this->json($res);
     }
 }

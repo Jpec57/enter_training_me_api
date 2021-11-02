@@ -38,6 +38,7 @@ class TrainingController extends AbstractController
         $entities = $this->trainingRepository->findAll();
         return $this->json($entities, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
     }
+    
 
     #[Route('/official', name: "official_training_list", methods: ["GET"])]
     public function officialList(): Response
