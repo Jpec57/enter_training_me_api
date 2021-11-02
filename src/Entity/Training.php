@@ -33,13 +33,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
             "security" => "is_granted('ROLE_ADMIN') or object.author == user",
             "openapi_context" => [
                 "summary" => "Permet de publier un entrainement",
-                // "requestBody" => [
-                //     "content" => [
-                //         "application/json" => [
-                //             "schema" => []
-                //         ]
-                //     ]
-                // ]
             ]
         ]
     ],
@@ -106,11 +99,13 @@ class Training
     private $realisedTrainings;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})
      */
     private $createdAt;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})
      */
     private $updatedAt;
@@ -126,8 +121,8 @@ class Training
     }
 
     /**
-    * @Groups({"default", "summary"})
-    */
+     * @Groups({"default", "summary"})
+     */
     public function getIntensity(): float
     {
         $intensity = 0;
