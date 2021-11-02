@@ -76,11 +76,11 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/{id}/infos', name: "user_profile_info", methods: ["GET"])]
-    public function getUserProfileInfo(SerializerInterface $serializer, int $id): Response
+    #[Route('/infos/{id}', name: "user_profile_info", methods: ["GET"], requirements: [])]
+    public function getUserProfileInfo(SerializerInterface $serializer, ?int $id = null): Response
     {
         $viewer = $this->getUser();
-        $user = $this->userRepository->find($id);
+        $user = ($id != null) ? $this->userRepository->find($id) : $viewer;
         if (!$user) {
             return $this->json([], 404);
         }
