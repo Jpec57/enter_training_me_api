@@ -148,6 +148,26 @@ class Training
     }
 
     /**
+     * @Groups({"default", "summary"})
+     */
+    public function getDifficulty(): string
+    {
+        $intensity = $this->getIntensity();
+        if (9000 <= $intensity) {
+            return "ELITE";
+        } else if (7000 <= $intensity && $intensity < 9000) {
+            return "EXPERT";
+        } else if (5000 <= $intensity && $intensity < 7000) {
+            return "ADVANCED";
+        } else if (3000 <= $intensity && $intensity < 5000) {
+            return "INTERMEDIATE";
+        } else if (1000 <= $intensity && $intensity < 3000) {
+            return "NOVICE";
+        }
+        return "BEGINNER";
+    }
+
+    /**
      * @Groups({"default"})
      */
     public function getEstimatedTimeInSeconds(): int
