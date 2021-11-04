@@ -122,15 +122,27 @@ class Training
      */
     private $hasBeenRealisedOnceByUser;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : 0})
+     */
+    private $isPremium;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="restrictedAccessTrainings")
+     */
+    private $restrictedAuthorizedUserList;
+
     public function __construct()
     {
         $this->cycles = new ArrayCollection();
         $this->savedTrainings = new ArrayCollection();
         $this->isOfficial = false;
+        $this->isPremium = false;
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
         $this->hasBeenRealisedOnceByUser = true;
         $this->realisedTrainings = new ArrayCollection();
+        $this->restrictedAuthorizedUserList = new ArrayCollection();
     }
 
     /**
@@ -395,6 +407,42 @@ class Training
     public function setHasBeenRealisedOnceByUser(bool $hasBeenRealisedOnceByUser): self
     {
         $this->hasBeenRealisedOnceByUser = $hasBeenRealisedOnceByUser;
+
+        return $this;
+    }
+
+    public function getIsPremium(): ?bool
+    {
+        return $this->isPremium;
+    }
+
+    public function setIsPremium(bool $isPremium): self
+    {
+        $this->isPremium = $isPremium;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getRestrictedAuthorizedUserList(): Collection
+    {
+        return $this->restrictedAuthorizedUserList;
+    }
+
+    public function addRestrictedAuthorizedUserList(User $restrictedAuthorizedUserList): self
+    {
+        if (!$this->restrictedAuthorizedUserList->contains($restrictedAuthorizedUserList)) {
+            $this->restrictedAuthorizedUserList[] = $restrictedAuthorizedUserList;
+        }
+
+        return $this;
+    }
+
+    public function removeRestrictedAuthorizedUserList(User $restrictedAuthorizedUserList): self
+    {
+        $this->restrictedAuthorizedUserList->removeElement($restrictedAuthorizedUserList);
 
         return $this;
     }

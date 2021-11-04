@@ -89,12 +89,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $isMale = true;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserRelation::class, mappedBy="fromUser")
+     */
+    private $givenUserRelations;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserRelation::class, mappedBy="toUser")
+     */
+    private $becomingUserRelations;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Training::class, mappedBy="restrictedAuthorizedUserList")
+     */
+    private $restrictedAccessTrainings;
+
     public function __construct()
     {
         $this->trainings = new ArrayCollection();
         $this->savedTrainings = new ArrayCollection();
         $this->apiTokens = new ArrayCollection();
         $this->isMale = true;
+        $this->givenUserRelations = new ArrayCollection();
+        $this->becomingUserRelations = new ArrayCollection();
+        $this->restrictedAccessTrainings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -335,6 +353,93 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsMale(bool $isMale): self
     {
         $this->isMale = $isMale;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserRelation[]
+     */
+    public function getGivenUserRelations(): Collection
+    {
+        return $this->givenUserRelations;
+    }
+
+    public function addGivenUserRelation(UserRelation $givenUserRelation): self
+    {
+        if (!$this->givenUserRelations->contains($givenUserRelation)) {
+            $this->givenUserRelations[] = $givenUserRelation;
+            $givenUserRelation->setFromUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGivenUserRelation(UserRelation $givenUserRelation): self
+    {
+        if ($this->givenUserRelations->removeElement($givenUserRelation)) {
+            // set the owning side to null (unless already changed)
+            if ($givenUserRelation->getFromUser() === $this) {
+                $givenUserRelation->setFromUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserRelation[]
+     */
+    public function getBecomingUserRelations(): Collection
+    {
+        return $this->becomingUserRelations;
+    }
+
+    public function addBecomingUserRelation(UserRelation $becomingUserRelation): self
+    {
+        if (!$this->becomingUserRelations->contains($becomingUserRelation)) {
+            $this->becomingUserRelations[] = $becomingUserRelation;
+            $becomingUserRelation->setToUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBecomingUserRelation(UserRelation $becomingUserRelation): self
+    {
+        if ($this->becomingUserRelations->removeElement($becomingUserRelation)) {
+            // set the owning side to null (unless already changed)
+            if ($becomingUserRelation->getToUser() === $this) {
+                $becomingUserRelation->setToUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Training[]
+     */
+    public function getRestrictedAccessTrainings(): Collection
+    {
+        return $this->restrictedAccessTrainings;
+    }
+
+    public function addRestrictedAccessTraining(Training $restrictedAccessTraining): self
+    {
+        if (!$this->restrictedAccessTrainings->contains($restrictedAccessTraining)) {
+            $this->restrictedAccessTrainings[] = $restrictedAccessTraining;
+            $restrictedAccessTraining->addRestrictedAuthorizedUserList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRestrictedAccessTraining(Training $restrictedAccessTraining): self
+    {
+        if ($this->restrictedAccessTrainings->removeElement($restrictedAccessTraining)) {
+            $restrictedAccessTraining->removeRestrictedAuthorizedUserList($this);
+        }
 
         return $this;
     }
