@@ -104,6 +104,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $restrictedAccessTrainings;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $profilePicturePath;
+
     public function __construct()
     {
         $this->trainings = new ArrayCollection();
@@ -440,6 +445,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->restrictedAccessTrainings->removeElement($restrictedAccessTraining)) {
             $restrictedAccessTraining->removeRestrictedAuthorizedUserList($this);
         }
+
+        return $this;
+    }
+
+    public function getProfilePicturePath(): ?string
+    {
+        return "uploads/users/" . $this->id . $this->profilePicturePath;
+    }
+
+    public function setProfilePicturePath(?string $profilePicturePath): self
+    {
+        $this->profilePicturePath = $profilePicturePath;
 
         return $this;
     }

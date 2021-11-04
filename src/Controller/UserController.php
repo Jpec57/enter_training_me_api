@@ -11,9 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\TrainingRepository;
 use App\Repository\UserRepository;
+use App\Services\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
 use App\Services\MailerService;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Route('/api/users')]
 class UserController extends AbstractController
@@ -23,8 +25,9 @@ class UserController extends AbstractController
     private $referenceExoRepo;
     private $apiTokenRepository;
     private $mailerService;
+    private $fileUploader;
 
-    public function __construct(ExerciseReferenceRepository $referenceExoRepo, RealisedExerciseRepository $realisedExerciseRepository, ApiTokenRepository $apiTokenRepository, UserRepository $userRepository, TrainingRepository $trainingRepository, MailerService $mailerService)
+    public function __construct(FileUploader $fileUploader, ExerciseReferenceRepository $referenceExoRepo, RealisedExerciseRepository $realisedExerciseRepository, ApiTokenRepository $apiTokenRepository, UserRepository $userRepository, TrainingRepository $trainingRepository, MailerService $mailerService)
     {
         $this->trainingRepository = $trainingRepository;
         $this->userRepository = $userRepository;
@@ -32,6 +35,7 @@ class UserController extends AbstractController
         $this->mailerService = $mailerService;
         $this->realisedExerciseRepository = $realisedExerciseRepository;
         $this->referenceExoRepo = $referenceExoRepo;
+        $this->fileUploader = $fileUploader;
     }
 
 
@@ -52,6 +56,24 @@ class UserController extends AbstractController
         return $this->json($entities, 200, [], ['groups' => ['default']]);
     }
 
+
+    #[Route('/profile_pic', name: "user_profile_pic_change", methods: ["POST"])]
+    public function profilePicChangeAction(Request $request): Response
+    {
+        /** @var User $viewer */
+        $viewer = $this->getUser();
+        if (!$viewer) {
+            return $this->json([], 403);
+        }
+        /** @var UploadedFile $uploadedFile */
+        $imgFile = $request->files->get("image");
+        $userId = 57;
+        $path = $this->fileUploader->upload($imgFile, $this->getParameter('profile_pic_directory') . $userId . '/profile/', "profile_pic");
+        $em = $this->getDoctrine()->getManager();
+        $viewer->setProfilePicturePath($path);
+        $em->flush();
+        return $this->json(["message" => $path], 200);
+    }
 
     #[Route('/feed', name: "user_feed", methods: ["GET"])]
     public function officialList(Request $request): Response
