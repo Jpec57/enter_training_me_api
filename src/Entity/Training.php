@@ -19,6 +19,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  * @ORM\HasLifecycleCallbacks
  */
 #[ApiResource(
+    order: ["createdAt" => "DESC"],
     itemOperations: [
         "get" => [
             'denormalization_context' => ['groups' => ['training', 'exercise_reference_muscle_activation', 'default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']],

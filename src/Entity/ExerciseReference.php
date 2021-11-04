@@ -18,6 +18,7 @@ use App\Repository\ExerciseReferenceRepository;
 
 #[UniqueEntity('name')]
 #[ApiResource(
+    order: ["name" => "ASC"],
     // attributes: ["security" => "is_granted('ROLE_ADMIN')"], 
     itemOperations: [
         "patch" => [
