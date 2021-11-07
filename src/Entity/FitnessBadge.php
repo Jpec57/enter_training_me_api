@@ -27,6 +27,17 @@ class FitnessBadge
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagePath;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=FitnessProfile::class, inversedBy="badges")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fitnessProfile;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +63,30 @@ class FitnessBadge
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath(?string $imagePath): self
+    {
+        $this->imagePath = $imagePath;
+
+        return $this;
+    }
+
+    public function getFitnessProfile(): ?FitnessProfile
+    {
+        return $this->fitnessProfile;
+    }
+
+    public function setFitnessProfile(?FitnessProfile $fitnessProfile): self
+    {
+        $this->fitnessProfile = $fitnessProfile;
 
         return $this;
     }

@@ -6,6 +6,7 @@ use App\Repository\FitnessTeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=FitnessTeamRepository::class)
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class FitnessTeam
 {
     /**
+     * @Groups({"default"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -20,19 +22,34 @@ class FitnessTeam
     private $id;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @Groups({"team"})
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="fitnessTeam")
      */
     private $members;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
     private $experience;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $logo;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $banner;
 
     public function __construct()
     {
@@ -94,6 +111,30 @@ class FitnessTeam
     public function setExperience(int $experience): self
     {
         $this->experience = $experience;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getBanner(): ?string
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?string $banner): self
+    {
+        $this->banner = $banner;
 
         return $this;
     }

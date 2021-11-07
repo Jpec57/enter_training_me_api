@@ -55,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $savedTrainings;
 
     /**
-     * @Groups({"user_team"})
+     * @Groups({"user_team", "default"})
      * @ORM\ManyToOne(targetEntity=FitnessTeam::class, inversedBy="members")
      */
     private $fitnessTeam;
@@ -105,6 +105,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $restrictedAccessTrainings;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $profilePicturePath;
@@ -451,6 +452,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getProfilePicturePath(): ?string
     {
+        if (!$this->profilePicturePath) {
+            return null;
+        }
         return "uploads/users/" . $this->id . $this->profilePicturePath;
     }
 

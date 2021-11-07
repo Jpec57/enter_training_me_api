@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\FitnessProfileRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -66,6 +68,72 @@ class FitnessProfile
      */
     private $user;
 
+    /**
+     * @Groups({"default"})
+     * @ORM\OneToMany(targetEntity=FitnessBadge::class, mappedBy="fitnessProfile", orphanRemoval=true)
+     */
+    private $badges;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $hamstringExperience;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $quadricepsExperience;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $calfExperience;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $absExperience;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $forearmExperience;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $bicepsExperience;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $tricepsExperience;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $shoulderExperience;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $chestExperience;
+
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $backExperience;
+
 
     public function __construct()
     {
@@ -73,6 +141,7 @@ class FitnessProfile
         $this->age = 25;
         $this->weight = 80;
         $this->goals = [self::GOAL_HYPERTROPHY];
+        $this->badges = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +215,156 @@ class FitnessProfile
         }
 
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FitnessBadge[]
+     */
+    public function getBadges(): Collection
+    {
+        return $this->badges;
+    }
+
+    public function addBadge(FitnessBadge $badge): self
+    {
+        if (!$this->badges->contains($badge)) {
+            $this->badges[] = $badge;
+            $badge->setFitnessProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBadge(FitnessBadge $badge): self
+    {
+        if ($this->badges->removeElement($badge)) {
+            // set the owning side to null (unless already changed)
+            if ($badge->getFitnessProfile() === $this) {
+                $badge->setFitnessProfile(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getHamstringExperience(): ?int
+    {
+        return $this->hamstringExperience;
+    }
+
+    public function setHamstringExperience(int $hamstringExperience): self
+    {
+        $this->hamstringExperience = $hamstringExperience;
+
+        return $this;
+    }
+
+    public function getQuadricepsExperience(): ?int
+    {
+        return $this->quadricepsExperience;
+    }
+
+    public function setQuadricepsExperience(int $quadricepsExperience): self
+    {
+        $this->quadricepsExperience = $quadricepsExperience;
+
+        return $this;
+    }
+
+    public function getCalfExperience(): ?int
+    {
+        return $this->calfExperience;
+    }
+
+    public function setCalfExperience(int $calfExperience): self
+    {
+        $this->calfExperience = $calfExperience;
+
+        return $this;
+    }
+
+    public function getAbsExperience(): ?int
+    {
+        return $this->absExperience;
+    }
+
+    public function setAbsExperience(int $absExperience): self
+    {
+        $this->absExperience = $absExperience;
+
+        return $this;
+    }
+
+    public function getForearmExperience(): ?int
+    {
+        return $this->forearmExperience;
+    }
+
+    public function setForearmExperience(int $forearmExperience): self
+    {
+        $this->forearmExperience = $forearmExperience;
+
+        return $this;
+    }
+
+    public function getBicepsExperience(): ?int
+    {
+        return $this->bicepsExperience;
+    }
+
+    public function setBicepsExperience(int $bicepsExperience): self
+    {
+        $this->bicepsExperience = $bicepsExperience;
+
+        return $this;
+    }
+
+    public function getTricepsExperience(): ?int
+    {
+        return $this->tricepsExperience;
+    }
+
+    public function setTricepsExperience(int $tricepsExperience): self
+    {
+        $this->tricepsExperience = $tricepsExperience;
+
+        return $this;
+    }
+
+    public function getShoulderExperience(): ?int
+    {
+        return $this->shoulderExperience;
+    }
+
+    public function setShoulderExperience(int $shoulderExperience): self
+    {
+        $this->shoulderExperience = $shoulderExperience;
+
+        return $this;
+    }
+
+    public function getChestExperience(): ?int
+    {
+        return $this->chestExperience;
+    }
+
+    public function setChestExperience(int $chestExperience): self
+    {
+        $this->chestExperience = $chestExperience;
+
+        return $this;
+    }
+
+    public function getBackExperience(): ?int
+    {
+        return $this->backExperience;
+    }
+
+    public function setBackExperience(int $backExperience): self
+    {
+        $this->backExperience = $backExperience;
 
         return $this;
     }
