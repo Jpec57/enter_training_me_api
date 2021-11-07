@@ -70,7 +70,7 @@ class Training
     public $author;
 
     /**
-     * @Groups({"default", "summary"})
+     * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 1})
      */
     private $numberOfLoops = 1;
@@ -214,6 +214,19 @@ class Training
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+
+    public function setNumberOfLoops(?int $numberOfLoops): self
+    {
+        $this->numberOfLoops = $numberOfLoops;
+        return $this;
+    }
+
+
+    public function getNumberOfLoops(): ?int
+    {
+        return $this->numberOfLoops;
     }
 
     public function getName(): ?string
