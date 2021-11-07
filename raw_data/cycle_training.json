@@ -1,0 +1,42 @@
+
+  {
+    "name": "Cycle Training",
+    "author": null,
+    "isOfficial": true,
+    "numberOfLoops" : 3,
+    "restBetweenCycles": 180,
+    "exercises": [
+      {
+        "exerciseReference": "api/exercise_references/4",
+        "sets": [
+          {
+            "reps": 5,
+            "weightPercent": 89,
+            "weight": 120
+          },
+          {
+            "reps": 5,
+            "weightPercent": 89,
+            "weight": 120
+          },
+          {
+            "reps": 5,
+            "weightPercent": 89,
+            "weight": 120
+          },
+          {
+            "reps": 5,
+            "weightPercent": 89,
+            "weight": 120
+          },
+          {
+            "reps": 5,
+            "weightPercent": 89,
+            "weight": 120
+          }
+        ],
+        "restBetweenSet": 120,
+        "executionStyle": "api/execution_styles/1"
+      }
+    ]
+  }

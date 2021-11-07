@@ -3,7 +3,7 @@
 namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
-use App\Entity\Book;
+use App\Entity\User;
 use App\Entity\Training;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +36,7 @@ final class TrainingCreationSubscriber implements EventSubscriberInterface
             return;
         }
 
+        /** @var User $user */
         $user = $this->security->getUser();
         $training->setAuthor($user);
 
@@ -45,11 +46,56 @@ final class TrainingCreationSubscriber implements EventSubscriberInterface
         if ($user && $exos) {
             if ($exos) {
                 foreach ($exos as $exo) {
+                    $exoRef = $exo->getExerciseReference();
+                    $exoStrainess = $exoRef->getStrainessFactor();
+                    $muscleActivations = $exoRef->getMuscleActivations();
+
                     $sets = $exo->getSets();
                     if ($sets) {
                         foreach ($sets as $set) {
                             $set->setUser($user);
                             $set->setRealisedDate($now);
+                        }
+                    }
+                    $fitnessProfile = $user->getFitnessProfile();
+                    if ($fitnessProfile) {
+                        $intensity = $exo->getIntensity();
+                        if ($muscleActivations) {
+                            foreach ($muscleActivations as $muscleActivation) {
+                                $muscle = $muscleActivation->getMuscle();
+                                $amount = $intensity * $muscleActivation->getActivationRatio() * (1 + $exoStrainess);
+                                switch ($muscle) {
+                                    case "biceps":
+                                        $fitnessProfile->setBicepsExperience($amount + $fitnessProfile->getBicepsExperience());
+                                        break;
+                                    case "triceps":
+                                        $fitnessProfile->setTricepsExperience($amount + $fitnessProfile->getTricepsExperience());
+                                        break;
+                                    case "shoulders":
+                                        $fitnessProfile->setShoulderExperience($amount + $fitnessProfile->getShoulderExperience());
+                                        break;
+                                    case "back":
+                                        $fitnessProfile->setBackExperience($amount + $fitnessProfile->getBackExperience());
+                                        break;
+                                    case "chest":
+                                        $fitnessProfile->setChestExperience($amount + $fitnessProfile->getChestExperience());
+                                        break;
+                                    case "calf":
+                                        $fitnessProfile->setCalfExperience($amount + $fitnessProfile->getCalfExperience());
+                                        break;
+                                    case "quadriceps":
+                                        $fitnessProfile->setQuadricepsExperience($amount + $fitnessProfile->getQuadricepsExperience());
+                                        break;
+                                    case "abs":
+                                        $fitnessProfile->setAbsExperience($amount + $fitnessProfile->getAbsExperience());
+                                        break;
+                                    case "hamstring":
+                                        $fitnessProfile->setHamstringExperience($amount + $fitnessProfile->getHamstringExperience());
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
                         }
                     }
                 }

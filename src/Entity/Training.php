@@ -70,7 +70,7 @@ class Training
     public $author;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "summary"})
      * @ORM\Column(type="integer", options={"default" : 1})
      */
     private $numberOfLoops = 1;
