@@ -64,10 +64,11 @@ class RealisedExercise
     private $executionStyle;
 
     /**
-     * @Groups({"realised_exercise_exercise_cycle"}) 
-     * @ORM\ManyToOne(targetEntity=ExerciseCycle::class, inversedBy="exercises")
+     * @ORM\ManyToOne(targetEntity=Training::class, inversedBy="exercises")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $exerciseCycle;
+    private $training;
+
 
     public function __construct()
     {
@@ -160,18 +161,6 @@ class RealisedExercise
         return $this;
     }
 
-    public function getExerciseCycle(): ?ExerciseCycle
-    {
-        return $this->exerciseCycle;
-    }
-
-    public function setExerciseCycle(?ExerciseCycle $exerciseCycle): self
-    {
-        $this->exerciseCycle = $exerciseCycle;
-
-        return $this;
-    }
-
     public function getTimeUnderTension(): string
     {
         return $this->executionStyle?->getTotalTimeUnderTension() ?? ExecutionStyle::DEFAULT_EXECUTION_TEMPO;
@@ -190,5 +179,17 @@ class RealisedExercise
         }
 
         return $total;
+    }
+
+    public function getTraining(): ?Training
+    {
+        return $this->training;
+    }
+
+    public function setTraining(?Training $training): self
+    {
+        $this->training = $training;
+
+        return $this;
     }
 }

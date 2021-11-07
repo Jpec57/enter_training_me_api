@@ -36,22 +36,22 @@ class TrainingController extends AbstractController
     public function list(): Response
     {
         $entities = $this->trainingRepository->findAll();
-        return $this->json($entities, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
+        return $this->json($entities, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'training_user']]);
     }
-    
+
 
     #[Route('/official', name: "official_training_list", methods: ["GET"])]
     public function officialList(): Response
     {
         $entities = $this->trainingRepository->findBy(['isOfficial' => true]);
-        return $this->json($entities, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
+        return $this->json($entities, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'training_user']]);
     }
 
     #[Route('/reference/{id}', name: "training_list_by_reference", methods: ["GET"])]
     public function listByReference(int $id): Response
     {
         $entities = $this->trainingRepository->findBy(['reference' => $id]);
-        return $this->json($entities, 200, [], ['groups' => ['default', 'training',  'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
+        return $this->json($entities, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'training_user']]);
     }
 
     #[Route('/summary', name: "training_summary", methods: ["GET"])]
@@ -122,6 +122,6 @@ class TrainingController extends AbstractController
         foreach ($entities as $entity) {
             $trainings[] = $entity->getTrainingReference();
         }
-        return $this->json($trainings, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
+        return $this->json($trainings, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'training_user']]);
     }
 }

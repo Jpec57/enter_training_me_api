@@ -40,23 +40,22 @@ final class TrainingCreationSubscriber implements EventSubscriberInterface
         $training->setAuthor($user);
 
         $now = new \DateTime();
-        if ($user && $training->getCycles()) {
-            foreach ($training->getCycles() as $cycle) {
-                /** @var RealisedExercise[] $exos */
-                $exos = $cycle->getExercises();
-                if ($exos) {
-                    foreach ($exos as $exo) {
-                        $sets = $exo->getSets();
-                        if ($sets) {
-                            foreach ($sets as $set) {
-                                $set->setUser($user);
-                                $set->setRealisedDate($now);
-                            }
+        $exos = $training->getExercises();
+
+        if ($user && $exos) {
+            if ($exos) {
+                foreach ($exos as $exo) {
+                    $sets = $exo->getSets();
+                    if ($sets) {
+                        foreach ($sets as $set) {
+                            $set->setUser($user);
+                            $set->setRealisedDate($now);
                         }
                     }
                 }
             }
         }
+
 
 
         // $message = (new \Swift_Message('A new book has been added'))

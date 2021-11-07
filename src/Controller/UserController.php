@@ -84,7 +84,7 @@ class UserController extends AbstractController
         $page = $request->get('page') ?? 0;
         $limit = $request->get('limit') ?? 5;
         $entities = $this->trainingRepository->findForFeed($page, $limit);
-        return $this->json($entities, 200, [], ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'exercise_cycle_exercise', 'training_exercise_cycle', 'training_user', 'exercise_cycle_exercise']]);
+        return $this->json($entities, 200, [], ['groups' => ['default', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'training_user']]);
     }
 
     #[Route('/token/{token}', name: "user_by_token_action", methods: ["GET"])]

@@ -70,17 +70,16 @@ class Training
     public $author;
 
     /**
-     * @Groups({"training_exercise_cycle", "summary", "training"})
-     * @ORM\OneToMany(targetEntity=ExerciseCycle::class, mappedBy="training", cascade={"persist", "remove"})
+     * @Groups({"default", "summary"})
+     * @ORM\Column(type="integer", options={"default" : 1})
      */
-    #[ApiSubresource]
-    private $cycles;
+    private $numberOfLoops = 1;
 
     /**
      * @Groups({"default", "summary"})
      * @ORM\Column(type="integer")
      */
-    private $restBetweenCycles;
+    private $restBetweenCycles = 60;
 
     /**
      * @ORM\OneToMany(targetEntity=SavedTraining::class, mappedBy="trainingReference", cascade={"persist", "remove"})
@@ -133,9 +132,14 @@ class Training
      */
     private $restrictedAuthorizedUserList;
 
+    /**
+     * @Groups({"default"})
+     * @ORM\OneToMany(targetEntity=RealisedExercise::class, mappedBy="training", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $exercises;
+
     public function __construct()
     {
-        $this->cycles = new ArrayCollection();
         $this->savedTrainings = new ArrayCollection();
         $this->isOfficial = false;
         $this->isPremium = false;
@@ -144,6 +148,7 @@ class Training
         $this->hasBeenRealisedOnceByUser = true;
         $this->realisedTrainings = new ArrayCollection();
         $this->restrictedAuthorizedUserList = new ArrayCollection();
+        $this->exercises = new ArrayCollection();
     }
 
     /**
@@ -152,10 +157,8 @@ class Training
     public function getIntensity(): float
     {
         $intensity = 0;
-        foreach ($this->cycles as $cycle) {
-            foreach ($cycle->getExercises() as $exercise) {
-                $intensity += $exercise->getIntensity();
-            }
+        foreach ($this->getExercises() as $exercise) {
+            $intensity += $exercise->getIntensity();
         }
         return $intensity;
     }
@@ -187,28 +190,23 @@ class Training
     {
         $totalTime = 0;
         $totalCycleTime = 0;
-        $nbCycles = count($this->cycles);
+        $nbCycles = $this->numberOfLoops;
 
-        if ($nbCycles == 0) {
+        if (empty($this->exercises)) {
             return 0;
         }
-        foreach ($this->cycles as $cycle) {
-            $oneCycleTime = 0;
-            foreach ($cycle->getExercises() as $exercise) {
-                // $exerciseReference = $exercise->getExerciseReference();
-                $sets = $exercise->getSets();
-                $totalExerciseTime = 0;
-                foreach ($sets as $set) {
-                    $totalSetTime = $set->getReps() * $exercise->getTotalTimeUnderTension();
-                    $totalExerciseTime += ($totalSetTime + $exercise->getRestBetweenSet());
-                }
-                $oneCycleTime += $totalExerciseTime;
+        $oneCycleTime = 0;
+        foreach ($this->getExercises() as $exercise) {
+            // $exerciseReference = $exercise->getExerciseReference();
+            $sets = $exercise->getSets();
+            $totalExerciseTime = 0;
+            foreach ($sets as $set) {
+                $totalSetTime = $set->getReps() * $exercise->getTotalTimeUnderTension();
+                $totalExerciseTime += ($totalSetTime + $exercise->getRestBetweenSet());
             }
-            $totalCycleTime = $oneCycleTime * $cycle->getNumberOfLoops() + ($cycle->getNumberOfLoops() - 1) * $cycle->getRestBetweenLoop();
-
-            $totalTime += $totalCycleTime;
+            $oneCycleTime += $totalExerciseTime;
         }
-        $totalTime += ((count($this->cycles) - 1) * $this->restBetweenCycles);
+        $totalTime = $nbCycles * $oneCycleTime + ($nbCycles - 1) * $this->restBetweenCycles;
 
         return $totalTime;
     }
@@ -238,36 +236,6 @@ class Training
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ExerciseCycle[]
-     */
-    public function getCycles(): Collection
-    {
-        return $this->cycles;
-    }
-
-    public function addCycle(ExerciseCycle $cycle): self
-    {
-        if (!$this->cycles->contains($cycle)) {
-            $this->cycles[] = $cycle;
-            $cycle->setTraining($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCycle(ExerciseCycle $cycle): self
-    {
-        if ($this->cycles->removeElement($cycle)) {
-            // set the owning side to null (unless already changed)
-            if ($cycle->getTraining() === $this) {
-                $cycle->setTraining(null);
-            }
-        }
 
         return $this;
     }
@@ -444,6 +412,36 @@ class Training
     public function removeRestrictedAuthorizedUserList(User $restrictedAuthorizedUserList): self
     {
         $this->restrictedAuthorizedUserList->removeElement($restrictedAuthorizedUserList);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RealisedExercise[]
+     */
+    public function getExercises(): Collection
+    {
+        return $this->exercises;
+    }
+
+    public function addExercise(RealisedExercise $exercise): self
+    {
+        if (!$this->exercises->contains($exercise)) {
+            $this->exercises[] = $exercise;
+            $exercise->setTraining($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExercise(RealisedExercise $exercise): self
+    {
+        if ($this->exercises->removeElement($exercise)) {
+            // set the owning side to null (unless already changed)
+            if ($exercise->getTraining() === $this) {
+                $exercise->setTraining(null);
+            }
+        }
 
         return $this;
     }

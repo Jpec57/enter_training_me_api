@@ -39,6 +39,7 @@ class UserImportCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
         if ($input->getOption('reset')) {
             $repo = $this->entityManager->getRepository(User::class);
             $entities = $repo->findAll();
@@ -54,6 +55,7 @@ class UserImportCommand extends Command
             // ->setFitnessProfile()
             ->setUsername("Jpec91");
         $this->entityManager->persist($testUser);
+        $io->writeln("\tImporting test@jpec.fr...");
 
         $testUser = new User();
         $testUser->setEmail("admin@jpec.fr")
@@ -61,8 +63,11 @@ class UserImportCommand extends Command
             ->setPassword($this->passwordEncoder->hashPassword($testUser, "test"))
             // ->setFitnessProfile()
             ->setUsername("Jpec57");
+        $io->writeln("\tImporting admin@jpec.fr...");
+
         $this->entityManager->persist($testUser);
         $this->entityManager->flush();
+        $io->success("Users imported.");
         return Command::SUCCESS;
     }
 }

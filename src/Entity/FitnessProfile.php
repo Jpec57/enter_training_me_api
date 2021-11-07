@@ -78,61 +78,61 @@ class FitnessProfile
      * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
-    private $hamstringExperience;
+    private $hamstringExperience = 0;
 
     /**
      * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
-    private $quadricepsExperience;
+    private $quadricepsExperience = 0;
 
     /**
      * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
-    private $calfExperience;
+    private $calfExperience = 0;
 
     /**
      * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
-    private $absExperience;
+    private $absExperience = 0;
 
     /**
      * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
-    private $forearmExperience;
+    private $forearmExperience = 0;
 
     /**
      * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
-    private $bicepsExperience;
+    private $bicepsExperience = 0;
 
     /**
      * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
-    private $tricepsExperience;
+    private $tricepsExperience = 0;
 
     /**
      * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
-    private $shoulderExperience;
+    private $shoulderExperience = 0;
 
     /**
      * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
-    private $chestExperience;
+    private $chestExperience = 0;
 
     /**
      * @Groups({"default"})
      * @ORM\Column(type="integer", options={"default" : 0})
      */
-    private $backExperience;
+    private $backExperience = 0;
 
 
     public function __construct()

@@ -42,12 +42,6 @@ class TrainingImportCommand extends Command
     }
 
 
-    // protected function makeCreateRequest(){
-    //     curl_exec("")
-    // }
-
-
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -68,7 +62,6 @@ class TrainingImportCommand extends Command
                 $name = $jsonEntity['name'];
                 $execStyle->setName($jsonEntity['name']);
                 $execStyle->setRestBetweenCycles($jsonEntity['strainFactor']);
-                // $execStyle->setCycles($style['description']);
 
                 $this->entityManager->persist($execStyle);
                 $io->writeln("\tImporting $name...");
