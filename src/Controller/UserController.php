@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\FitnessProfileType;
+use App\Form\UserType;
 use App\Repository\ApiTokenRepository;
 use App\Repository\ExerciseReferenceRepository;
 use App\Repository\RealisedExerciseRepository;
@@ -14,12 +16,15 @@ use App\Repository\UserRepository;
 use App\Services\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
 use App\Services\MailerService;
+use App\Traits\FormTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Route('/api/users')]
 class UserController extends AbstractController
 {
+    use FormTrait;
+
     private $trainingRepository;
     private $realisedExerciseRepository;
     private $referenceExoRepo;
@@ -57,6 +62,56 @@ class UserController extends AbstractController
     }
 
 
+    #[Route('/update-user', name: "user_update", methods: ["PATCH", "PUT"])]
+    public function updateAction(Request $request): Response
+    {
+        /** @var User $viewer */
+        $viewer = $this->getUser();
+        if (!$viewer) {
+            return $this->json([], 403);
+        }
+        $data = json_decode($request->getContent(), true);
+        $clearMissing = $request->getMethod() != 'PATCH';
+
+        $form = $this->createForm(UserType::class, $viewer);
+        $form->submit($data, $clearMissing);
+        $em = $this->getDoctrine()->getManager();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($viewer);
+            $em->flush();
+            return $this->json($viewer, 200, [], ['groups' => ['default']]);
+        }
+        $errors = $this->getErrorsFromForm($form);
+        return $this->json(["errors" => $errors], 400);
+    }
+
+
+
+    #[Route('/update', name: "user_update_fitness_profile", methods: ["PATCH", "PUT"])]
+    public function updateFitnessProfileAction(Request $request): Response
+    {
+        /** @var User $viewer */
+        $viewer = $this->getUser();
+        if (!$viewer) {
+            return $this->json([], 403);
+        }
+        $data = json_decode($request->getContent(), true);
+        $clearMissing = $request->getMethod() != 'PATCH';
+        $form = $this->createForm(FitnessProfileType::class, $viewer->getFitnessProfile());
+        $form->submit($data, $clearMissing);
+        $em = $this->getDoctrine()->getManager();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($viewer);
+            $em->flush();
+            return $this->json($viewer, 200, [], ['groups' => ['default']]);
+        }
+        $errors = $this->getErrorsFromForm($form);
+        return $this->json(["errors" => $errors], 400);
+    }
+
+
     #[Route('/profile_pic', name: "user_profile_pic_change", methods: ["POST"])]
     public function profilePicChangeAction(Request $request): Response
     {
@@ -67,7 +122,7 @@ class UserController extends AbstractController
         }
         /** @var UploadedFile $uploadedFile */
         $imgFile = $request->files->get("image");
-        $userId = 57;
+        $userId = $viewer->getId();
         $path = $this->fileUploader->upload($imgFile, $this->getParameter('profile_pic_directory') . $userId . '/profile/', "profile_pic");
         $em = $this->getDoctrine()->getManager();
         $viewer->setProfilePicturePath($path);

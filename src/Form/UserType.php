@@ -9,19 +9,27 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email')
+            ->add('roles')
             ->add('password')
-            ->add('username');
+            ->add('username')
+            ->add('createdAt')
+            ->add('isMale')
+            ->add('profilePicturePath')
+            ->add('fitnessTeam')
+            ->add('fitnessProfile')
+            ->add('restrictedAccessTrainings');
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
             'csrf_protection' => false
+
         ]);
     }
 }
