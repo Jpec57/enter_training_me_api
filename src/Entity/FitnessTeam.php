@@ -7,10 +7,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=FitnessTeamRepository::class)
  */
+#[ApiResource(
+    order: ["name" => "ASC"],
+    //Use to read / GET
+    normalizationContext: ['groups' => ['default', 'team']],
+    //USE TO WRITE
+    denormalizationContext: ['groups' => ['default', 'team']],
+)]
 class FitnessTeam
 {
     /**

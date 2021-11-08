@@ -69,13 +69,18 @@ class ExerciseImportCommand extends Command
                         ->setIsBodyweightExercise($isBodyWeight)
                         ->setStrainessFactor($strainessFactor);
 
+
                     if ($muscleActivations) {
+                        $io->writeln("MUSCLE ACTIVATION GIVEN !");
+
                         foreach ($muscleActivations as $muscleActivationMap) {
                             $muscleActivation = new MuscleActivation();
                             $muscleActivation
                                 ->setMuscle($muscleActivationMap->muscle)
                                 ->setActivationRatio($muscleActivationMap->activationRatio);
                             $exo->addMuscleActivation($muscleActivation);
+
+                            $io->writeln("Creating link for " . $muscleActivation->getMuscle());
                         }
                     }
                     $this->entityManager->persist($exo);

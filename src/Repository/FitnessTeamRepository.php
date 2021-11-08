@@ -19,32 +19,11 @@ class FitnessTeamRepository extends ServiceEntityRepository
         parent::__construct($registry, FitnessTeam::class);
     }
 
-    // /**
-    //  * @return FitnessTeam[] Returns an array of FitnessTeam objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findOrderedByRanking()
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $qb = $this->createQueryBuilder('t')
+            ->orderBy('t.experience', 'DESC');
+        return $qb->getQuery()
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?FitnessTeam
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

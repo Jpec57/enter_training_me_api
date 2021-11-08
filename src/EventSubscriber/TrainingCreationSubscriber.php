@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\User;
 use App\Entity\Training;
+use App\Enum\MuscleEnum;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
@@ -58,6 +59,7 @@ final class TrainingCreationSubscriber implements EventSubscriberInterface
                         }
                     }
                     $fitnessProfile = $user->getFitnessProfile();
+
                     if ($fitnessProfile) {
                         $intensity = $exo->getIntensity();
                         if ($muscleActivations) {
@@ -65,31 +67,32 @@ final class TrainingCreationSubscriber implements EventSubscriberInterface
                                 $muscle = $muscleActivation->getMuscle();
                                 $amount = $intensity * $muscleActivation->getActivationRatio() * (1 + $exoStrainess);
                                 switch ($muscle) {
-                                    case "biceps":
+                                    case MuscleEnum::BICEPS:
+                                    case MuscleEnum::FOREARMS:
                                         $fitnessProfile->setBicepsExperience($amount + $fitnessProfile->getBicepsExperience());
                                         break;
-                                    case "triceps":
+                                    case MuscleEnum::TRICEPS:
                                         $fitnessProfile->setTricepsExperience($amount + $fitnessProfile->getTricepsExperience());
                                         break;
-                                    case "shoulders":
+                                    case MuscleEnum::SHOULDERS:
                                         $fitnessProfile->setShoulderExperience($amount + $fitnessProfile->getShoulderExperience());
                                         break;
-                                    case "back":
+                                    case MuscleEnum::BACK:
                                         $fitnessProfile->setBackExperience($amount + $fitnessProfile->getBackExperience());
                                         break;
-                                    case "chest":
+                                    case MuscleEnum::CHEST:
                                         $fitnessProfile->setChestExperience($amount + $fitnessProfile->getChestExperience());
                                         break;
-                                    case "calf":
+                                    case MuscleEnum::CALF:
                                         $fitnessProfile->setCalfExperience($amount + $fitnessProfile->getCalfExperience());
                                         break;
-                                    case "quadriceps":
+                                    case MuscleEnum::QUADRICEPS:
                                         $fitnessProfile->setQuadricepsExperience($amount + $fitnessProfile->getQuadricepsExperience());
                                         break;
-                                    case "abs":
+                                    case MuscleEnum::ABS:
                                         $fitnessProfile->setAbsExperience($amount + $fitnessProfile->getAbsExperience());
                                         break;
-                                    case "hamstring":
+                                    case MuscleEnum::HAMSTRING:
                                         $fitnessProfile->setHamstringExperience($amount + $fitnessProfile->getHamstringExperience());
                                         break;
                                     default:

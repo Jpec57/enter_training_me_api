@@ -1,47 +1,47 @@
 Name	description	material	muscleActivations	strainessFactor	isBodyWeight
-Dips	Dips description	parallel bars, pull-up bar	"[{""muscle"":""chest"",""activationRatio"":0.3}, {""muscle"":""triceps"",""activationRatio"":0.4}, {""muscle"":""shoulders"",""activationRatio"":0.3}]"	0.3	1
-Pull Up	Pull up long description 	pull-up bar	"[{""muscle"":""biceps"",""activationRatio"":0.4}, {""muscle"":""back"",""activationRatio"":0.4}, {""muscle"":""shoulders"",""activationRatio"":0.2}]"	0.4	1
-Push Up	Lay your fingers on the ground, shoulder width apart and simply push.		"[{""muscle"":""chest"",""activationRatio"":0.4}, {""muscle"":""triceps"",""activationRatio"":0.4}, {""muscle"":""shoulders"",""activationRatio"":0.2}]"	0.1	1
+Dips	Dips description	parallel bars, pull-up bar	[{"muscle":"chest","activationRatio":0.3}, {"muscle":"triceps","activationRatio":0.4}, {"muscle":"shoulders","activationRatio":0.3}]	0.3	1
+Pull Up	Pull up long description 	pull-up bar	[{"muscle":"biceps","activationRatio":0.4}, {"muscle":"back","activationRatio":0.4}, {"muscle":"shoulders","activationRatio":0.2}]	0.4	1
+Push Up	Lay your fingers on the ground, shoulder width apart and simply push.		[{"muscle":"chest","activationRatio":0.4}, {"muscle":"triceps","activationRatio":0.4}, {"muscle":"shoulders","activationRatio":0.2}]	0.1	1
 					
-Bench Press		bench	"[{""muscle"":""chest"",""activationRatio"":0.3}, {""muscle"":""triceps"",""activationRatio"":0.4}, {“muscle"":""shoulders"",""activationRatio"":0.3}]"	0.5	0
-Inclined Bench Press		bench	"[{“muscle"":""chest"",""activationRatio"":0.3}, {""muscle"":""triceps"",""activationRatio"":0.4}, {""muscle"":""shoulders"",""activationRatio"":0.3}]"	0.5	0
-Butterfly		station, dumbbells	"[{""muscle"":""chest"",""activationRatio"":0.9}, {""muscle"":""shoulders"",""activationRatio"":0.1}]"	0.5	0
-Triceps Extension		station, dumbbells	"[{""muscle"":""triceps"",""activationRatio"":1}]"	0.5	0
-Triceps Extension Overhead		station, dumbbells	"[{""muscle"":""triceps"",""activationRatio"":1}]"	0.5	0
-Cable Triceps Extension 		station	"[{""muscle"":""triceps"",""activationRatio"":1}]"	0.5	0
+Bench Press		bench	[{"muscle":"chest","activationRatio":0.3}, {"muscle":"triceps","activationRatio":0.4}, {“muscle":"shoulders","activationRatio":0.3}]	0.5	0
+Inclined Bench Press		bench	[{“muscle":"chest","activationRatio":0.3}, {"muscle":"triceps","activationRatio":0.4}, {"muscle":"shoulders","activationRatio":0.3}]	0.5	0
+Butterfly		station, dumbbells	[{"muscle":"chest","activationRatio":0.9}, {"muscle":"shoulders","activationRatio":0.1}]	0.5	0
+Triceps Extension		station, dumbbells	[{"muscle":"triceps","activationRatio":1}]	0.5	0
+Triceps Extension Overhead		station, dumbbells	[{"muscle":"triceps","activationRatio":1}]	0.5	0
+Cable Triceps Extension 		station	[{"muscle":"triceps","activationRatio":1}]	0.5	0
 					
-Australian Pull Up		pull-up bar	"[{""muscle"":""biceps"",""activationRatio"":0.5}, {“muscle"":""back"",""activationRatio"":0.5}]"	0.1	1
-Close Chin Up		pull-up bar	"[{""muscle"":""biceps"",""activationRatio"":0.7}, {""muscle"":""back"",""activationRatio"":0.3}]"	0.5	1
-Wide Pull Up		pull-up bar	"[{""muscle"":""biceps"",""activationRatio"":0.3}, {""muscle"":""back"",""activationRatio"":0.6}, {""muscle"":""shoulders"",""activationRatio"":0.1}]"	0.5	1
-One Arm Pull Up		pull-up bar	"[{""muscle"":""biceps"",""activationRatio"":0.6}, {""muscle"":""back"",""activationRatio"":0.2}, {""muscle"":""shoulders"",""activationRatio"":0.2}]"	1	1
-One Arm Pull Up Negative		pull-up bar	"[{""muscle"":""biceps"",""activationRatio"":0.6}, {""muscle"":""back"",""activationRatio"":0.2}, {""muscle"":""shoulders"",""activationRatio"":0.2}]"	0.9	1
-Assisted One Arm Pull Up Negative		pull-up bar	"[{""muscle"":""biceps"",""activationRatio"":0.6}, {""muscle"":""back"",""activationRatio"":0.2}, {""muscle"":""shoulders"",""activationRatio"":0.2}]"	0.6	1
-Assisted One Arm Pull Up		pull-up bar	"[{""muscle"":""biceps"",""activationRatio"":0.6}, {""muscle"":""back"",""activationRatio"":0.2}, {""muscle"":""shoulders"",""activationRatio"":0.2}]"	0.7	1
+Australian Pull Up		pull-up bar	[{"muscle":"biceps","activationRatio":0.5}, {“muscle":"back","activationRatio":0.5}]	0.1	1
+Close Chin Up		pull-up bar	[{"muscle":"biceps","activationRatio":0.7}, {"muscle":"back","activationRatio":0.3}]	0.5	1
+Wide Pull Up		pull-up bar	[{"muscle":"biceps","activationRatio":0.3}, {"muscle":"back","activationRatio":0.6}, {"muscle":"shoulders","activationRatio":0.1}]	0.5	1
+One Arm Pull Up		pull-up bar	[{"muscle":"biceps","activationRatio":0.6}, {"muscle":"back","activationRatio":0.2}, {"muscle":"shoulders","activationRatio":0.2}]	1	1
+One Arm Pull Up Negative		pull-up bar	[{"muscle":"biceps","activationRatio":0.6}, {"muscle":"back","activationRatio":0.2}, {"muscle":"shoulders","activationRatio":0.2}]	0.9	1
+Assisted One Arm Pull Up Negative		pull-up bar	[{"muscle":"biceps","activationRatio":0.6}, {"muscle":"back","activationRatio":0.2}, {"muscle":"shoulders","activationRatio":0.2}]	0.6	1
+Assisted One Arm Pull Up		pull-up bar	[{"muscle":"biceps","activationRatio":0.6}, {"muscle":"back","activationRatio":0.2}, {"muscle":"shoulders","activationRatio":0.2}]	0.7	1
 					
-Typewriter Pull Up		pull-up bar	"[{""muscle"":""biceps"",""activationRatio"":0.3}, {""muscle"":""back"",""activationRatio"":0.6}, {""muscle"":""shoulders"",""activationRatio"":0.1}]"	0.65	1
-Archer Pull Up		pull-up bar	"[{""muscle"":""biceps"",""activationRatio"":0.3}, {""muscle"":""back"",""activationRatio"":0.6}, {""muscle"":""shoulders"",""activationRatio"":0.1}]"	0.7	1
+Typewriter Pull Up		pull-up bar	[{"muscle":"biceps","activationRatio":0.3}, {"muscle":"back","activationRatio":0.6}, {"muscle":"shoulders","activationRatio":0.1}]	0.65	1
+Archer Pull Up		pull-up bar	[{"muscle":"biceps","activationRatio":0.3}, {"muscle":"back","activationRatio":0.6}, {"muscle":"shoulders","activationRatio":0.1}]	0.7	1
 Muscle Up		pull-up bar		0.6	1
 					
-Bent Over Lateral Raise		Dumbbells, cable	"[{“muscle"":""shoulders"",""activationRatio"":1}]"	0.5	0
-Pull Over		Dumbbels, bar	"[{""muscle"":""shoulders"",""activationRatio"":0.2}, {“muscle”:""back"",""activationRatio"":0.8}]"	0.5	0
-Deadlift		Bar	"[{“muscle”:”back”,”activationRatio"":0.8}, {“muscle”:”hamstring"",""activationRatio"":0.2}]"	0.6	0
-Rowing 		Bar	"[{""muscle"":""biceps"",""activationRatio"":0.5}, {“muscle"":""back"",""activationRatio"":0.5}]"	0.5	0
+Bent Over Lateral Raise		Dumbbells, cable	[{“muscle":"shoulders","activationRatio":1}]	0.5	0
+Pull Over		Dumbbels, bar	[{"muscle":"shoulders","activationRatio":0.2}, {“muscle”:"back","activationRatio":0.8}]	0.5	0
+Deadlift		Bar	[{“muscle”:”back”,”activationRatio":0.8}, {“muscle”:”hamstring","activationRatio":0.2}]	0.6	0
+Rowing 		Bar	[{"muscle":"biceps","activationRatio":0.5}, {“muscle":"back","activationRatio":0.5}]	0.5	0
 					
-Squat		bar	"[{“muscle”:”quadriceps”,”activationRatio"":1}]"	0.5	1
-Leg Press		Machine	"[{“muscle”:”quadriceps”,”activationRatio"":0.8}, {“muscle”:”hamstring"",""activationRatio"":0.2}]"	0.5	0
+Squat		bar	[{“muscle”:”quadriceps”,”activationRatio":1}]	0.5	1
+Leg Press		Machine	[{“muscle”:”quadriceps”,”activationRatio":0.8}, {“muscle”:”hamstring","activationRatio":0.2}]	0.5	0
 Lunges		Dumbbells	[{“muscle”:”quadriceps”,”activationRatio”:1},]	0.5	1
-Leg Extension		machine	"[{“muscle”:”quadriceps”,”activationRatio"":1}]"	0.5	0
-Leg Curl		machine	"[{“muscle”:”hamstring”,""activationRatio"":1}]"	0.5	0
-Calf Elevation			"[{“muscle”:”calf”,”activationRatio"":1}]"	0.5	1
+Leg Extension		machine	[{“muscle”:”quadriceps”,”activationRatio":1}]	0.5	0
+Leg Curl		machine	[{“muscle”:”hamstring”,"activationRatio":1}]	0.5	0
+Calf Elevation			[{“muscle”:”calf”,”activationRatio":1}]	0.5	1
 Squat Hold			[{“muscle”:”quadriceps”,”activationRatio”:1}]	0.2	1
 					
-Lateral Raise		Dumbbells	"[{“muscle"":""shoulders"",""activationRatio"":1}]"	0.5	0
-Frontal Raise		Dumbbells	"[{“muscle"":""shoulders"",""activationRatio"":1}]"	0.5	0
-Military Press		Dumbbells	"[{“muscle"":""shoulders"",""activationRatio"":1}]"	0.6	0
+Lateral Raise		Dumbbells	[{“muscle":"shoulders","activationRatio":1}]	0.5	0
+Frontal Raise		Dumbbells	[{“muscle":"shoulders","activationRatio":1}]	0.5	0
+Military Press		Dumbbells	[{“muscle":"shoulders","activationRatio":1}]	0.6	0
 					
-Bar Curl 		bar	"[{“muscle"":""biceps"",""activationRatio"":1}]"	0.5	0
-Curl		Dumbbells	"[{“muscle"":""biceps"",""activationRatio"":1}]"	0.5	0
-Larry Scott Curl		machine	"[{“muscle"":""biceps"",""activationRatio"":1}]"	0.5	0
-Pronation Curl		Dumbbells	"[{“muscle"":""biceps"",""activationRatio"":1}]"	0.5	0
-Pronation Bar Curl		Dumbbells	"[{“muscle"":""biceps"",""activationRatio"":1}]"	0.5	0
-Sitted Curl		Dumbbells	"[{“muscle"":""biceps"",""activationRatio"":1}]"	0.5	0
+Bar Curl 		bar	[{“muscle":"biceps","activationRatio":1}]	0.5	0
+Curl		Dumbbells	[{“muscle":"biceps","activationRatio":1}]	0.5	0
+Larry Scott Curl		machine	[{“muscle":"biceps","activationRatio":1}]	0.5	0
+Pronation Curl		Dumbbells	[{“muscle":"biceps","activationRatio":1}]	0.5	0
+Pronation Bar Curl		Dumbbells	[{“muscle":"biceps","activationRatio":1}]	0.5	0
+Sitted Curl		Dumbbells	[{“muscle":"biceps","activationRatio":1}]	0.5	0

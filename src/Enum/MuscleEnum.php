@@ -13,6 +13,7 @@ class MuscleEnum
     const QUADRICEPS = "quadriceps";
     const HAMSTRING = "hamstring";
     const CALF = "calf";
+    const ABS = "abs";
 
     public $availableMuscles = [
         MuscleEnum::CHEST,
@@ -24,5 +25,6 @@ class MuscleEnum
         MuscleEnum::QUADRICEPS,
         MuscleEnum::HAMSTRING,
         MuscleEnum::CALF,
+        MuscleEnum::ABS,
     ];
 }

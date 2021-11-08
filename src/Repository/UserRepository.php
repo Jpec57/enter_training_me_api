@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Enum\MuscleEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -36,10 +37,45 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    // public function findByToken(){
-    //     return $this->createQueryBuilder('u')
-    //         ->andWhere('u.apiTokens ')
-    //         ->getQuery()
-    //         ->getResult();
-    // }
+    public function findOrderedByRanking(string $rankingType = "global")
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->leftJoin('u.fitnessProfile', 'p');
+        switch ($rankingType) {
+            case MuscleEnum::CHEST:
+                $qb = $qb->orderBy('p.chestExperience', 'DESC');
+                break;
+            case MuscleEnum::BACK:
+                $qb = $qb->orderBy('p.backExperience', 'DESC');
+                break;
+            case MuscleEnum::TRICEPS:
+                $qb = $qb->orderBy('p.tricepsExperience', 'DESC');
+                break;
+            case MuscleEnum::FOREARMS:
+            case MuscleEnum::BICEPS:
+                $qb = $qb->orderBy('p.bicepsExperience', 'DESC');
+                break;
+            case MuscleEnum::SHOULDERS:
+                $qb = $qb->orderBy('p.shoulderExperience', 'DESC');
+                break;
+            case MuscleEnum::QUADRICEPS:
+                $qb = $qb->orderBy('p.quadricepsExperience', 'DESC');
+                break;
+            case MuscleEnum::HAMSTRING:
+                $qb = $qb->orderBy('p.hamstringExperience', 'DESC');
+                break;
+            case MuscleEnum::CALF:
+                $qb = $qb->orderBy('p.calfExperience', 'DESC');
+                break;
+            case MuscleEnum::ABS:
+                $qb = $qb->orderBy('p.absExperience', 'DESC');
+                break;
+            default:
+                $qb = $qb->orderBy('p.experience', 'DESC');
+                break;
+        }
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }
