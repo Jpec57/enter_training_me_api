@@ -69,6 +69,12 @@ class RealisedExercise
      */
     private $training;
 
+    /**
+     * @Groups({"default", "summary"})
+     * @ORM\Column(type="boolean", options={"default" : 0})
+     */
+    private $isIsometric;
+
 
     public function __construct()
     {
@@ -189,6 +195,18 @@ class RealisedExercise
     public function setTraining(?Training $training): self
     {
         $this->training = $training;
+
+        return $this;
+    }
+
+    public function getIsIsometric(): ?bool
+    {
+        return $this->isIsometric;
+    }
+
+    public function setIsIsometric(bool $isIsometric): self
+    {
+        $this->isIsometric = $isIsometric;
 
         return $this;
     }
