@@ -73,7 +73,7 @@ class RealisedExercise
      * @Groups({"default", "summary"})
      * @ORM\Column(type="boolean", options={"default" : 0})
      */
-    private $isIsometric;
+    private $isIsometric = false;
 
 
     public function __construct()
