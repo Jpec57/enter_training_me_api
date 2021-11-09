@@ -86,6 +86,12 @@ class ExerciseReference
      */
     private $isBodyweightExercise = false;
 
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="boolean", options={"default" : 0})
+     */
+    private $isOnlyIsometric = false;
+
     public function __construct()
     {
         $this->muscleActivations = new ArrayCollection();
@@ -195,6 +201,18 @@ class ExerciseReference
     public function setIsBodyweightExercise(bool $isBodyweightExercise): self
     {
         $this->isBodyweightExercise = $isBodyweightExercise;
+
+        return $this;
+    }
+
+    public function getIsOnlyIsometric(): ?bool
+    {
+        return $this->isOnlyIsometric;
+    }
+
+    public function setIsOnlyIsometric(bool $isOnlyIsometric): self
+    {
+        $this->isOnlyIsometric = $isOnlyIsometric;
 
         return $this;
     }
