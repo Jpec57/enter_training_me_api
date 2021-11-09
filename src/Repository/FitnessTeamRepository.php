@@ -22,6 +22,7 @@ class FitnessTeamRepository extends ServiceEntityRepository
     public function findOrderedByRanking()
     {
         $qb = $this->createQueryBuilder('t')
+            ->select('t as team, t.experience as experience')
             ->orderBy('t.experience', 'DESC');
         return $qb->getQuery()
             ->getResult();

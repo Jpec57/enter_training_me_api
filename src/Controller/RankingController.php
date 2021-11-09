@@ -26,7 +26,7 @@ class RankingController extends AbstractController
     {
         $rankingType = $request->get('rankingType') ?? 'global';
         $users = $this->userRepository->findOrderedByRanking($rankingType);
-        return $this->json($users, 200, [], ['groups' => ['default', 'performance']]);
+        return $this->json($users, 200);
     }
 
     #[Route('/teams', name: 'team_ranking')]

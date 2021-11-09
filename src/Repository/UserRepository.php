@@ -40,42 +40,70 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findOrderedByRanking(string $rankingType = "global")
     {
         $qb = $this->createQueryBuilder('u')
+            ->select('u as user')
             ->leftJoin('u.fitnessProfile', 'p');
         switch ($rankingType) {
             case MuscleEnum::CHEST:
-                $qb = $qb->orderBy('p.chestExperience', 'DESC');
+                $qb = $qb
+                    ->addSelect('p.chestExperience AS experience')
+                    ->orderBy('p.chestExperience', 'DESC');
                 break;
             case MuscleEnum::BACK:
-                $qb = $qb->orderBy('p.backExperience', 'DESC');
+                $qb = $qb
+                    ->addSelect('p.backExperience AS experience')
+
+                    ->orderBy('p.backExperience', 'DESC');
                 break;
             case MuscleEnum::TRICEPS:
-                $qb = $qb->orderBy('p.tricepsExperience', 'DESC');
+                $qb = $qb
+                    ->addSelect('p.tricepsExperience AS experience')
+
+                    ->orderBy('p.tricepsExperience', 'DESC');
                 break;
             case MuscleEnum::FOREARMS:
             case MuscleEnum::BICEPS:
-                $qb = $qb->orderBy('p.bicepsExperience', 'DESC');
+                $qb = $qb
+                    ->addSelect('p.bicepsExperience AS experience')
+
+                    ->orderBy('p.bicepsExperience', 'DESC');
                 break;
             case MuscleEnum::SHOULDERS:
-                $qb = $qb->orderBy('p.shoulderExperience', 'DESC');
+                $qb = $qb
+                    ->addSelect('p.shoulderExperience AS experience')
+
+                    ->orderBy('p.shoulderExperience', 'DESC');
                 break;
             case MuscleEnum::QUADRICEPS:
-                $qb = $qb->orderBy('p.quadricepsExperience', 'DESC');
+                $qb = $qb
+                    ->addSelect('p.quadricepsExperience AS experience')
+
+                    ->orderBy('p.quadricepsExperience', 'DESC');
                 break;
             case MuscleEnum::HAMSTRING:
-                $qb = $qb->orderBy('p.hamstringExperience', 'DESC');
+                $qb = $qb
+                    ->addSelect('p.hamstringExperience AS experience')
+                    ->orderBy('p.hamstringExperience', 'DESC');
                 break;
             case MuscleEnum::CALF:
-                $qb = $qb->orderBy('p.calfExperience', 'DESC');
+                $qb = $qb
+                    ->addSelect('p.calfExperience AS experience')
+
+                    ->orderBy('p.calfExperience', 'DESC');
                 break;
             case MuscleEnum::ABS:
-                $qb = $qb->orderBy('p.absExperience', 'DESC');
+                $qb = $qb
+                    ->addSelect('p.absExperience AS experience')
+
+                    ->orderBy('p.absExperience', 'DESC');
                 break;
             default:
-                $qb = $qb->orderBy('p.experience', 'DESC');
+                $qb = $qb
+                    ->addSelect('p.experience AS experience')
+                    ->orderBy('p.experience', 'DESC');
                 break;
         }
 
         return $qb->getQuery()
-            ->getResult();
+            ->getArrayResult();
     }
 }
