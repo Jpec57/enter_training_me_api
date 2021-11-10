@@ -19,7 +19,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "minimal"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -67,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $fitnessProfile;
 
     /**
-     * @Groups({"default"})
+     * @Groups({"default", "minimal"})
      * @ORM\Column(type="string", length=255)
      */
     private $username;
@@ -116,6 +116,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserReaction::class, mappedBy="user")
+     */
+    private $userReactions;
+
     public function __construct()
     {
         $this->trainings = new ArrayCollection();
@@ -125,6 +130,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->givenUserRelations = new ArrayCollection();
         $this->becomingUserRelations = new ArrayCollection();
         $this->restrictedAccessTrainings = new ArrayCollection();
+        $this->userReactions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -479,6 +485,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserReaction[]
+     */
+    public function getUserReactions(): Collection
+    {
+        return $this->userReactions;
+    }
+
+    public function addUserReaction(UserReaction $userReaction): self
+    {
+        if (!$this->userReactions->contains($userReaction)) {
+            $this->userReactions[] = $userReaction;
+            $userReaction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserReaction(UserReaction $userReaction): self
+    {
+        if ($this->userReactions->removeElement($userReaction)) {
+            // set the owning side to null (unless already changed)
+            if ($userReaction->getUser() === $this) {
+                $userReaction->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -138,6 +138,12 @@ class Training
      */
     private $exercises;
 
+    /**
+     * @Groups({"default"})
+     * @ORM\OneToMany(targetEntity=UserReaction::class, mappedBy="training")
+     */
+    private $userReactions;
+
     public function __construct()
     {
         $this->savedTrainings = new ArrayCollection();
@@ -149,6 +155,7 @@ class Training
         $this->realisedTrainings = new ArrayCollection();
         $this->restrictedAuthorizedUserList = new ArrayCollection();
         $this->exercises = new ArrayCollection();
+        $this->userReactions = new ArrayCollection();
     }
 
     /**
@@ -453,6 +460,36 @@ class Training
             // set the owning side to null (unless already changed)
             if ($exercise->getTraining() === $this) {
                 $exercise->setTraining(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserReaction[]
+     */
+    public function getUserReactions(): Collection
+    {
+        return $this->userReactions;
+    }
+
+    public function addUserReaction(UserReaction $userReaction): self
+    {
+        if (!$this->userReactions->contains($userReaction)) {
+            $this->userReactions[] = $userReaction;
+            $userReaction->setTraining($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserReaction(UserReaction $userReaction): self
+    {
+        if ($this->userReactions->removeElement($userReaction)) {
+            // set the owning side to null (unless already changed)
+            if ($userReaction->getTraining() === $this) {
+                $userReaction->setTraining(null);
             }
         }
 
