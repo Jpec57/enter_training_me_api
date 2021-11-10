@@ -110,6 +110,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $profilePicturePath;
 
+    /**
+     * @Groups({"default"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->trainings = new ArrayCollection();
@@ -461,6 +467,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfilePicturePath(?string $profilePicturePath): self
     {
         $this->profilePicturePath = $profilePicturePath;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
