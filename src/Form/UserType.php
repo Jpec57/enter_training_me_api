@@ -15,6 +15,7 @@ class UserType extends AbstractType
             ->add('email')
             ->add('roles')
             ->add('password')
+            ->add('description')
             ->add('username')
             ->add('createdAt')
             ->add('isMale')
