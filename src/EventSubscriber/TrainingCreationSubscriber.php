@@ -65,6 +65,7 @@ final class TrainingCreationSubscriber implements EventSubscriberInterface
 
                     if ($fitnessProfile) {
                         $intensity = $exo->getIntensity();
+                        $fitnessProfile->setExperience($fitnessProfile->getExperience() + $intensity);
                         if ($muscleActivations) {
                             foreach ($muscleActivations as $muscleActivation) {
                                 $muscle = $muscleActivation->getMuscle();
