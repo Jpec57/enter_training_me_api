@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Set;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -25,11 +26,16 @@ class SetRepository extends ServiceEntityRepository
         $params = [
             'refExoId' => $refExoId
         ];
+        $rsm = new ResultSetMapping();
+        $query = $this->getEntityManager()->createNativeQuery("SET sql_mode =''", $rsm);
+        $query->getResult();
 
         $qb = $this->createQueryBuilder('s')
+            ->select('s as set, MAX((s.weight + 1) * (1+0.0333 * s.reps)) as estimatedOneRM')
             ->leftJoin('s.realisedExercise', 'doneExo')
             ->leftJoin('doneExo.exerciseReference', 'refExo')
-            ->andWhere('refExo = :refExoId');
+            ->andWhere('refExo = :refExoId')
+            ->groupBy('s.realisedDate');
 
         if ($userId) {
             $params['userId'] = $userId;
