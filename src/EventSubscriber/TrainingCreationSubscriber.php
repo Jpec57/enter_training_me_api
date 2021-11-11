@@ -42,6 +42,9 @@ final class TrainingCreationSubscriber implements EventSubscriberInterface
         $training->setAuthor($user);
 
         $now = new \DateTime();
+        $startDate = (clone $now)->setTime(0, 0, 0, 0);
+
+        $startDateTimeStamp = $startDate->getTimestamp();
         $exos = $training->getExercises();
 
         if ($user && $exos) {
@@ -55,7 +58,7 @@ final class TrainingCreationSubscriber implements EventSubscriberInterface
                     if ($sets) {
                         foreach ($sets as $set) {
                             $set->setUser($user);
-                            $set->setRealisedDate($now);
+                            $set->setRealisedDate($startDateTimeStamp);
                         }
                     }
                     $fitnessProfile = $user->getFitnessProfile();
