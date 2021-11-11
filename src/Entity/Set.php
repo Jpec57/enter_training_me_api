@@ -64,7 +64,7 @@ class Set
 
     /**
      * @Groups({"default", "performance"})
-     * @ORM\Column(type="datetime", nullable=true, options={"default" : "CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $realisedDate;
 
@@ -145,12 +145,12 @@ class Set
         return $this;
     }
 
-    public function getRealisedDate(): ?\DateTimeInterface
+    public function getRealisedDate(): ?int
     {
         return $this->realisedDate;
     }
 
-    public function setRealisedDate(?\DateTimeInterface $realisedDate): self
+    public function setRealisedDate(?int $realisedDate): self
     {
         $this->realisedDate = $realisedDate;
 
