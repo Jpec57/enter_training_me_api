@@ -467,7 +467,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!$this->profilePicturePath) {
             return null;
         }
-        return "uploads/users/" . $this->id . "/" . $this->profilePicturePath;
+        return "uploads/users/" . $this->id  . '/profile/' . $this->profilePicturePath;
     }
 
     public function setProfilePicturePath(?string $profilePicturePath): self
