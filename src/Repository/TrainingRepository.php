@@ -31,9 +31,30 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
 
+    public function findPaginatedByDate(?int $userId, int $page = 0, int $limit = 10)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->andWhere('t.isOfficial = 0')
+            ->orderBy('t.createdAt', 'DESC');
+        if ($userId) {
+            $qb = $qb
+                ->andWhere('t.author = :userId')
+                ->setParameters([
+                    'userId' => $userId
+                ]);
+        }
+        return $qb
+            ->setMaxResults($limit)
+            ->setFirstResult($page * $limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     public function countByUser(int $userId)
     {
         return $this->createQueryBuilder('t')
+            ->andWhere('t.author = :userId')
             ->setParameter("userId", $userId)
             ->getQuery()
             ->getSingleScalarResult();

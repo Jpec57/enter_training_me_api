@@ -173,4 +173,13 @@ class UserController extends AbstractController
         $res["lastTrainings"] = $serializer->normalize($trainings, null, ['groups' => ['default', 'summary']]);
         return $this->json($res);
     }
+
+    #[Route('/{userId}/trainings', name: "user_training_list", methods: ["GET"])]
+    public function getUserTrainingListAction(Request $request, int $userId): Response
+    {
+        $page = $request->get('page') ?? 0;
+        $limit = $request->get('limit') ?? 5;
+        $entities = $this->trainingRepository->findPaginatedByDate($userId, $page, $limit);
+        return $this->json($entities, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'training_user']]);
+    }
 }
