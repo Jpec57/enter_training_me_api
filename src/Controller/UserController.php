@@ -173,7 +173,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{userId}/trainings', name: "get_user_training_list", methods: ["GET"])]
-    public function getUserTrainingListAction(Request $request, int $userId): Response
+    public function getUserTrainingListAction(Request $request, int $userId, SerializerInterface $serializer): Response
     {
         $page = $request->get('page') ?? 0;
         $limit = $request->get('limit') ?? 5;
