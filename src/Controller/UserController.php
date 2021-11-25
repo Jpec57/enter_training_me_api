@@ -43,25 +43,6 @@ class UserController extends AbstractController
         $this->fileUploader = $fileUploader;
     }
 
-
-
-    #[Route('/realised_exercises', name: "user_realised_exo_list", methods: ["GET"])]
-    public function getRealisedExercisesByUserList(Request $request): Response
-    {
-        $viewer = $this->getUser();
-        if (!$viewer) {
-            return $this->json([], 200);
-        }
-
-        $ids = $this->realisedExerciseRepository->findReferenceExerciseIdsByUser($viewer->getId());
-        $entities = [];
-        if ($ids && !empty($ids)) {
-            $entities = $this->referenceExoRepo->findBy(["id" => $ids]);
-        }
-        return $this->json($entities, 200, [], ['groups' => ['default']]);
-    }
-
-
     #[Route('/update-user', name: "user_update", methods: ["PATCH", "PUT"])]
     public function updateAction(Request $request): Response
     {
@@ -153,6 +134,23 @@ class UserController extends AbstractController
     }
 
 
+    #[Route('/realised_exercises', name: "user_realised_exo_list", methods: ["GET"])]
+    public function getRealisedExercisesByUserList(Request $request): Response
+    {
+        $viewer = $this->getUser();
+        if (!$viewer) {
+            return $this->json([], 200);
+        }
+
+        $ids = $this->realisedExerciseRepository->findReferenceExerciseIdsByUser($viewer->getId());
+        $entities = [];
+        if ($ids && !empty($ids)) {
+            $entities = $this->referenceExoRepo->findBy(["id" => $ids]);
+        }
+        return $this->json($entities, 200, [], ['groups' => ['default']]);
+    }
+
+
     #[Route('/infos/{id}', name: "user_profile_info", methods: ["GET"], requirements: [])]
     public function getUserProfileInfo(SerializerInterface $serializer, ?int $id = null): Response
     {
@@ -174,7 +172,7 @@ class UserController extends AbstractController
         return $this->json($res);
     }
 
-    #[Route('/{userId}/trainings', name: "user_training_list", methods: ["GET"])]
+    #[Route('/{userId}/trainings', name: "get_user_training_list", methods: ["GET"])]
     public function getUserTrainingListAction(Request $request, int $userId): Response
     {
         $page = $request->get('page') ?? 0;

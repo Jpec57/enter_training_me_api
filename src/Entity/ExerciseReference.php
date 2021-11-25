@@ -92,6 +92,16 @@ class ExerciseReference
      */
     private $isOnlyIsometric = false;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isValidated;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $author;
+
     public function __construct()
     {
         $this->muscleActivations = new ArrayCollection();
@@ -213,6 +223,30 @@ class ExerciseReference
     public function setIsOnlyIsometric(bool $isOnlyIsometric): self
     {
         $this->isOnlyIsometric = $isOnlyIsometric;
+
+        return $this;
+    }
+
+    public function getIsValidated(): ?bool
+    {
+        return $this->isValidated;
+    }
+
+    public function setIsValidated(bool $isValidated): self
+    {
+        $this->isValidated = $isValidated;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
