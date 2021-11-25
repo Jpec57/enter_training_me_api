@@ -177,7 +177,14 @@ class UserController extends AbstractController
     {
         $page = $request->get('page') ?? 0;
         $limit = $request->get('limit') ?? 5;
-        $entities = $this->trainingRepository->findPaginatedByDate($userId, $page, $limit);
-        return $this->json($entities, 200, [], ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'training_user']]);
+        $entities = $this->trainingRepository->findPaginatedByDate($userId, $page, $limit + 1);
+        $hasPrevious = count($entities) > $limit;
+        $hasNext = ($page != 0);
+        $jsonEntities = $serializer->normalize($entities, null, ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'training_user']]);
+        return $this->json([
+            'hasNext' => $hasNext,
+            'hasPrevious' => $hasPrevious,
+            'entities' => $jsonEntities
+        ], 200);
     }
 }
