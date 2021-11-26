@@ -70,9 +70,9 @@ class ExerciseReference
 
     /**
      * @Groups({"default"})
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", options={"default" : 0.5})
      */
-    private $strainessFactor;
+    private $strainessFactor = 0.5;
 
     /**
      * @Groups({"exercise_reference_muscle_activation", "default"})
@@ -93,9 +93,9 @@ class ExerciseReference
     private $isOnlyIsometric = false;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default" : 0})
      */
-    private $isValidated;
+    private $isValidated = false;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
@@ -106,6 +106,7 @@ class ExerciseReference
     {
         $this->muscleActivations = new ArrayCollection();
         $this->isBodyweightExercise = false;
+        $this->strainessFactor = 0.5;
     }
 
     public function getId(): ?int
@@ -166,7 +167,7 @@ class ExerciseReference
         return $this->strainessFactor;
     }
 
-    public function setStrainessFactor(float $strainessFactor): self
+    public function setStrainessFactor(?float $strainessFactor): self
     {
         $this->strainessFactor = $strainessFactor;
 
@@ -208,7 +209,7 @@ class ExerciseReference
         return $this->isBodyweightExercise;
     }
 
-    public function setIsBodyweightExercise(bool $isBodyweightExercise): self
+    public function setIsBodyweightExercise(?bool $isBodyweightExercise): self
     {
         $this->isBodyweightExercise = $isBodyweightExercise;
 
@@ -220,7 +221,7 @@ class ExerciseReference
         return $this->isOnlyIsometric;
     }
 
-    public function setIsOnlyIsometric(bool $isOnlyIsometric): self
+    public function setIsOnlyIsometric(?bool $isOnlyIsometric): self
     {
         $this->isOnlyIsometric = $isOnlyIsometric;
 
