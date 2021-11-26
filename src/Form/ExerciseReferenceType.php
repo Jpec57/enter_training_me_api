@@ -27,6 +27,7 @@ class ExerciseReferenceType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
+            'allow_extra_fields' => true,
             'data_class' => ExerciseReference::class,
         ]);
     }
