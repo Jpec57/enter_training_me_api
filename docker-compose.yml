@@ -54,7 +54,7 @@ services:
     # In most cases, the user we use on our local machine is the user with uid 1000 and gid 1000.
     user: 1000:1000
   etm_test_dbc:
-    image: mysql:8.0
+    image: mysql:5.7
     container_name: etm_test_dbc
     restart: on-failure
 
