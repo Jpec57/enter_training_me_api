@@ -12,34 +12,21 @@ use Symfony\Component\Serializer\SerializerInterface;
 class TestController extends AbstractController
 {
 
+    private $env;
     private $trainingRepository;
 
-    public function __construct(TrainingRepository $trainingRepository)
+    public function __construct(TrainingRepository $trainingRepository, string $env)
     {
         $this->trainingRepository = $trainingRepository;
+        $this->env = $env;
     }
 
     #[Route('/test', name: 'test')]
     public function index(): Response
     {
+        $env = $this->env;
         return $this->json([
-            'controller_name' => 'TestController',
+            'controller_name' => "TestController $env",
         ]);
     }
-
-    // #[Route('/users/{userId}/trainings', name: "get_paginated_user_trainings", methods: ["GET"])]
-    // public function getUserTrainingListAction(Request $request, int $userId, SerializerInterface $serializer): Response
-    // {
-    //     $page = $request->get('page') ?? 0;
-    //     $limit = $request->get('limit') ?? 5;
-    //     $entities = $this->trainingRepository->findPaginatedByDate($userId, $page, $limit + 1);
-    //     $hasPrevious = count($entities) > $limit;
-    //     $hasNext = ($page != 0);
-    //     $jsonEntities = $serializer->normalize($entities, null, ['groups' => ['default', 'training', 'realised_exercise_set', 'realised_exercise_exercise_reference', 'training_user']]);
-    //     return $this->json([
-    //         'hasNext' => $hasNext,
-    //         'hasPrevious' => $hasPrevious,
-    //         'entities' => $jsonEntities
-    //     ], 200);
-    // }
 }
