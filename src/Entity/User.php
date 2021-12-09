@@ -11,12 +11,24 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use DateTime;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  * @ORM\HasLifecycleCallbacks()
  */
+#[ApiResource(
+    paginationEnabled: false,
+    order: ["name" => "ASC"],
+    itemOperations: [
+        "get" => [
+            'denormalizationContext' => ['groups' => ['default']],
+        ]
+    ],
+    denormalizationContext: ['groups' => ['default']],
+    normalizationContext: ['groups' => ['default']],
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
