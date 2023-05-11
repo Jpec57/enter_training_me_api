@@ -20,7 +20,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  */
 #[ApiResource(
     paginationEnabled: false,
-    order: ["name" => "ASC"],
+    order: ["username" => "ASC"],
     itemOperations: [
         "get" => [
             'denormalizationContext' => ['groups' => ['default']],
